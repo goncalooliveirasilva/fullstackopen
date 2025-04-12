@@ -6,19 +6,28 @@ const Header = ({course}) => {
   )
 }
 
+const Part = ({part, exercise}) => {
+  return (
+    <>
+      <p>{part} {exercise}</p>
+    </>
+  )
+}
+
 const Content = ({parts, exercises}) => {
   // return (
-  //   <>
-  //     <p>{parts[0]} {exercises[0]}</p>
-  //     <p>{parts[1]} {exercises[1]}</p>
-  //     <p>{parts[2]} {exercises[2]}</p>
-  //   </>
+  //   <div>
+  //     <Part part={parts[0]} exercise={exercises[0]}/>
+  //     <Part part={parts[1]} exercise={exercises[1]}/>
+  //     <Part part={parts[2]} exercise={exercises[2]}/>
+  //   </div>
   // )
   return (
     <>
-    {parts.map((part, index) => (<p>{part} {exercises[index]}</p>))}
+      {parts.map((part, index) => (<Part key={index} part={part} exercise={exercises[index]}/>))}
     </>
   )
+  
 }
 
 const Total = ({exercises}) => {
@@ -40,11 +49,12 @@ const App = () => {
   const exercises3 = 14
 
   const exercises = [exercises1, exercises2, exercises3]
+  const parts = [part1, part2, part3]
 
   return (
     <div>
       <Header course={course}/>
-      <Content parts={[part1, part2, part3]} exercises={exercises}/>
+      <Content parts={parts} exercises={exercises}/>
       <Total exercises={exercises}/>
     </div>
   )
