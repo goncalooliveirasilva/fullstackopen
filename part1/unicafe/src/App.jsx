@@ -6,10 +6,20 @@ const Button = ({onClick, text}) => <button onClick={onClick}>{text}</button>
 
 const Stat = ({name, value}) => <p>{name} {value}</p>
 
+
 const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const total = good + neutral + bad
+
+  const averageScore = () => {
+    return (good - bad) / total
+  }
+
+  const positiveFeedback = () => {
+    return (good / total) * 100
+  }
 
   return (
     <div>
@@ -24,6 +34,9 @@ const App = () => {
         <Stat name={"good"} value={good}></Stat>
         <Stat name={"neutral"} value={neutral}></Stat>
         <Stat name={"bad"} value={bad}></Stat>
+        <Stat name={"all"} value={total}></Stat>
+        <Stat name={"average"} value={isNaN(averageScore()) ? "N/A" : averageScore()}></Stat>
+        <Stat name={"positive"} value={isNaN(positiveFeedback()) ? "N/A" : `${positiveFeedback()}%`}></Stat>
       </div>
     </div>
   )
