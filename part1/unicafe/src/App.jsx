@@ -4,14 +4,25 @@ const Header = ({name}) => <h1>{name}</h1>
 
 const Button = ({onClick, text}) => <button onClick={onClick}>{text}</button>
 
-const Stat = ({name, value}) => <p>{name} {value}</p>
+const Stat = ({text, value}) => <tr><td>{text} {value}</td></tr>
 
+const Statistics = ({total, names, values}) => {
+  if (total !== 0) {
+    return names.map((value, index) => <Stat key={index} text={value} value={values[index]}></Stat>)
+  }
+  return (
+    <>
+    <tr><td>No feedback given</td></tr>
+    </>
+  )
+}
 
 const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
   const total = good + neutral + bad
+  const statsNames = ["good", "neutral", "bad", "all", "average", "positive"]
 
   const averageScore = () => {
     return (good - bad) / total
@@ -20,6 +31,15 @@ const App = () => {
   const positiveFeedback = () => {
     return (good / total) * 100
   }
+
+  const statsValues = [
+    good,
+    neutral,
+    bad,
+    total,
+    averageScore(),
+    `${positiveFeedback()}%`
+  ]
 
   return (
     <div>
@@ -31,12 +51,11 @@ const App = () => {
       </div>
       <Header name="statistics"></Header>
       <div>
-        <Stat name={"good"} value={good}></Stat>
-        <Stat name={"neutral"} value={neutral}></Stat>
-        <Stat name={"bad"} value={bad}></Stat>
-        <Stat name={"all"} value={total}></Stat>
-        <Stat name={"average"} value={isNaN(averageScore()) ? "N/A" : averageScore()}></Stat>
-        <Stat name={"positive"} value={isNaN(positiveFeedback()) ? "N/A" : `${positiveFeedback()}%`}></Stat>
+        <table>
+          <tbody>
+            <Statistics total={total} names={statsNames} values={statsValues}></Statistics>
+          </tbody>
+        </table>
       </div>
     </div>
   )
