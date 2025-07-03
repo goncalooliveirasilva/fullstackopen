@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from 'axios'
 
 const Persons = ({persons}) => persons.map((value) => <Person key={value.id} person={value}></Person>)
 const Person = ({person}) => <p>{person.name} {person.number}</p>
@@ -40,6 +41,15 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPhoneNum, setNewPhoneNum] = useState('')
   const [newFilter, setNewFilter] = useState('')
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log(response.data);
+        setPersons(response.data)
+      })
+  }, [])
 
   const personsToShow = (newFilter === '') 
     ? persons
