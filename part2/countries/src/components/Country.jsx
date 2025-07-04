@@ -23,7 +23,7 @@ const Country = ({country}) => {
                 </ul>
             </div>
             <div>
-                <img src={country.flags.png} alt="" />
+                <img style={{border: 'solid'}} src={country.flags.png} alt="" />
             </div>
             <Weather capitalName={country.capital[0]} lat={country.capitalInfo.latlng[0]} lon={country.capitalInfo.latlng[1]} />
         </div>
