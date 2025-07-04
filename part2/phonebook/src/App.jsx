@@ -1,48 +1,18 @@
 import { useState, useEffect } from "react"
 import numbersService from "./services/numbers"
-
-const Button = ({text, onClick}) => <button onClick={onClick}>{text}</button>
-
-const Persons = ({persons, onClick}) => persons.map((value) => <Person onClick={onClick} key={value.id} person={value}></Person>)
-const Person = ({person, onClick}) => {
-  return (
-    <p>{person.name} {person.number} 
-      <Button text={"delete"} onClick={() => onClick(person.id)}></Button>
-    </p>
-  )
-}
-
-const Filter = (props) => {
-  return (
-    <div>
-      filter shown with <input value={props.newFilter} onChange={(e) => props.setNewFilter(e.target.value)} />
-    </div>
-  )
-}
-
-const PersonForm = (props) => {
-  return (
-    <div>
-      <form onSubmit={props.addPerson}>
-        <div>
-          name: <input value={props.newName} onChange={(e) => props.setNewName(e.target.value)} />
-        </div>
-        <div>
-          number: <input value={props.newPhoneNum} onChange={(e) => props.setNewPhoneNum(e.target.value)} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-    </div>
-  )
-}
+import Persons from "./components/Persons"
+import Filter from "./components/Filter"
+import PersonForm from "./components/PersonForm"
+import Notification from "./components/Notification"
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newPhoneNum, setNewPhoneNum] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
+  const [successfulMessage, setSuccessfulMessage] = useState(true)
 
   useEffect(() => {
     numbersService
@@ -65,7 +35,23 @@ const App = () => {
         numbersService
           .update(id, {...person, number: newPhoneNum})
           .then(returnedPerson => {
+            setNewName('')
+            setNewPhoneNum('')
+            setSuccessfulMessage(true)
+            setSuccessMessage(`Updated ${returnedPerson.name}`)
             setPersons(persons.map(person => person.id === id ? returnedPerson : person))
+            setTimeout(()  => {
+              setSuccessMessage(null)
+            }, 3000)
+          })
+          .catch(error => {
+            setSuccessfulMessage(false)
+            setErrorMessage(`Information of ${person.name} has already been removed from server`)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 3000)
+            setNewName('')
+            setNewPhoneNum('')
           })
       }
     } else if (newName !== '' && newPhoneNum !== '') {
@@ -79,6 +65,11 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewPhoneNum('')
+          setSuccessfulMessage(true)
+          setSuccessMessage(`Added ${returnedPerson.name}`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 3000)
         })
     }
     // console.log(persons);
@@ -93,9 +84,19 @@ const App = () => {
       .then(res => {
         // console.log(res);
         setPersons(persons.filter(p => p.id !== id))
+        setSuccessfulMessage(true)
+        setSuccessMessage(`Removed ${person.name}`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 3000)
       })
       .catch(error => {
-        alert("The person was already deleted from server!")
+        // alert("The person was already deleted from server!")
+        setSuccessfulMessage(false)
+        setErrorMessage(`Information of ${person.name} has already been deleted from server`)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 3000)
         setPersons(persons.filter(p => p.id !== id))
       })
     }
@@ -104,6 +105,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification 
+        message={(successMessage === null) ? errorMessage : successMessage} 
+        successful={successfulMessage}
+      >
+      </Notification>
       <Filter newFilter={newFilter} setNewFilter={setNewFilter}></Filter>
       <h3>add a new</h3>
       <PersonForm 
