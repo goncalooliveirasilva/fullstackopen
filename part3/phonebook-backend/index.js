@@ -57,16 +57,16 @@ app.get('/info', (request, response, next) => {
 app.post('/api/persons', (request, response, next) => {
     const {name, number} = request.body
 
-    if (!name) {
-        return response.status(400).json({
-            error: 'name missing'
-        })
-    }
-    if (!number) {
-        return response.status(400).json({
-            error: 'number missing'
-        })
-    }
+    // if (!name) {
+    //     return response.status(400).json({
+    //         error: 'name missing'
+    //     })
+    // }
+    // if (!number) {
+    //     return response.status(400).json({
+    //         error: 'number missing'
+    //     })
+    // }
     const person = new Person({name, number})
     person.save()
         .then(result => {
@@ -97,6 +97,9 @@ const errorHandler = (error, request, response, next) => {
     console.log(error.message);
     if (error.name === 'CastError') {
         return response.status(400).send({error: 'malformed id'})
+    }
+    if (error.name === 'ValidationError') {
+        return response.status(400).send({error: error.message})
     }
     next(error)
 }

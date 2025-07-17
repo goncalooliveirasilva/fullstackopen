@@ -54,7 +54,8 @@ const App = () => {
             setNewPhoneNum('')
           })
       }
-    } else if (newName !== '' && newPhoneNum !== '') {
+    // } else if (newName !== '' && newPhoneNum !== '') {
+    } else {
       const person = {
         name: newName,
         number: newPhoneNum
@@ -70,6 +71,11 @@ const App = () => {
           setTimeout(() => {
             setSuccessMessage(null)
           }, 3000)
+        })
+        .catch(error => {
+          setSuccessfulMessage(false)
+          setErrorMessage(error.response.data.error)
+          setTimeout(() => setErrorMessage(null), 8000)
         })
     }
     // console.log(persons);
