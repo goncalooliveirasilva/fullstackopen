@@ -45,6 +45,19 @@ describe('testing api', () => {
 
     assert.strictEqual(response.body.length, blogs.length)
   })
+
+  test('unique identifier property is named id', async () => {
+    const response = await api.get('/api/blogs')
+    response.body.forEach(blog => {
+      assert.ok(blog.id, 'Expected blog to have an id property')
+      assert.strictEqual(typeof blog.id, 'string', 'Expected id to be a string')
+      assert.strictEqual(blog._id, undefined, 'Expected _id to be undefined')
+    })
+  })
+
+
+
+
   after(async () => {
     await mongoose.connection.close()
   })
