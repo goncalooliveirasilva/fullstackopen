@@ -7,7 +7,7 @@ const Blog = require('../models/blog')
 
 const api = supertest(app)
 
-const blogs = [
+const initialBlogs = [
   {
     _id: '5a422a851b54a676234d17f7',
     title: 'React patterns',
@@ -26,15 +26,13 @@ const blogs = [
   }
 ]
 
-
 beforeEach(async () => {
   await Blog.deleteMany({})
-  let blog = new Blog(blogs[0])
+  let blog = new Blog(initialBlogs[0])
   await blog.save()
-  blog = new Blog(blogs[1])
+  blog = new Blog(initialBlogs[1])
   await blog.save()
 })
-
 
 describe('testing api', () => {
   test('returns all notes as json', async () => {
@@ -43,7 +41,7 @@ describe('testing api', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
-    assert.strictEqual(response.body.length, blogs.length)
+    assert.strictEqual(response.body.length, initialBlogs.length)
   })
 
   test('unique identifier property is named id', async () => {
@@ -55,6 +53,23 @@ describe('testing api', () => {
     })
   })
 
+  test('creates a new blog post', async () => {
+    const newBlog = {
+      title: 'Testing the api',
+      author: 'me',
+      url: 'www.something.com',
+      likes: 5
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+    const response = await api.get('/api/blogs')
+    const titles = response.body.map(b => b.title)
+    assert.strictEqual(response.body.length, initialBlogs.length + 1)
+    assert(titles.includes('Testing the api'))
+  })
 
 
 
