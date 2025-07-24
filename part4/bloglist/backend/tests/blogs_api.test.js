@@ -71,7 +71,22 @@ describe('testing api', () => {
     assert(titles.includes('Testing the api'))
   })
 
-
+  test('likes property defaults to 0 if missing', async () => {
+    const newBlog = {
+      title: 'Testing the api',
+      author: 'me',
+      url: 'www.something.com',
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+    const response = await api.get('/api/blogs')
+    const likes = response.body.map(b => b.likes)
+    assert.strictEqual(response.body.length, initialBlogs.length + 1)
+    assert(likes.includes(0))
+  })
 
   after(async () => {
     await mongoose.connection.close()
