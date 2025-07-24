@@ -1,9 +1,15 @@
 const mongoose = require('mongoose')
 
 const blogSchema = mongoose.Schema({
-  title: String,
+  title: {
+    type: String,
+    required: [true, 'Title is missing.']
+  },
   author: String,
-  url: String,
+  url: {
+    type: String,
+    required: [true, 'URL is missing.']
+  },
   likes: {
     type: Number,
     default: 0

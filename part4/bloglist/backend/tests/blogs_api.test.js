@@ -88,6 +88,30 @@ describe('testing api', () => {
     assert(likes.includes(0))
   })
 
+  test('title missing', async () => {
+    const newBlog = {
+      author: 'me',
+      url: 'www.something.com',
+      likes: 5
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  })
+
+  test('url missing', async () => {
+    const newBlog = {
+      title: 'Testing the api',
+      author: 'me',
+      likes: 5
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  })
+
   after(async () => {
     await mongoose.connection.close()
   })
