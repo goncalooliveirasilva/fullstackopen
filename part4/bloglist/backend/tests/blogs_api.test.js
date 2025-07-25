@@ -124,6 +124,18 @@ describe('testing api', () => {
     assert.strictEqual(blogsAfter.body.length, initialBlogs.length - 1)
   })
 
+  test('updating number of likes', async () => {
+    const blogsBefore = await api.get('/api/blogs')
+    const blogToUpdate = blogsBefore.body[0]
+    const updatedLikes = blogToUpdate.likes + 1
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send({ likes: updatedLikes })
+    const blogsAfter = await api.get('/api/blogs')
+    const updatedBlog = blogsAfter.body.find(b => b.id === blogToUpdate.id)
+    assert.strictEqual(updatedBlog.likes, blogToUpdate.likes + 1)
+  })
+
   after(async () => {
     await mongoose.connection.close()
   })
