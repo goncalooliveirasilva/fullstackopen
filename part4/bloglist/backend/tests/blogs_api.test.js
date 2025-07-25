@@ -112,6 +112,18 @@ describe('testing api', () => {
       .expect(400)
   })
 
+  test('deletion of a blog', async () => {
+    const blogsBefore = await api.get('/api/blogs')
+    const blogToDelete = blogsBefore.body[0]
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+    const blogsAfter = await api.get('/api/blogs')
+    const titles = blogsAfter.body.map(b => b.title)
+    assert(!titles.includes('React patterns'))
+    assert.strictEqual(blogsAfter.body.length, initialBlogs.length - 1)
+  })
+
   after(async () => {
     await mongoose.connection.close()
   })
