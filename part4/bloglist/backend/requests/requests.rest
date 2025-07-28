@@ -11,3 +11,18 @@ Content-Type: application/json
     "url": "something.com",
     "likes": 1000
 }
+
+###
+
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "name": "Matti Luukkainen",
+    "username": "mluukkai",
+    "password": "secretpassword"
+}
+
+###
+GET http://localhost:3003/api/users
+
