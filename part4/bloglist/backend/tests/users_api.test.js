@@ -86,6 +86,23 @@ describe('Testing users api (already one user in db)', () => {
     assert.strictEqual(usersBefore.length, usersAfter.length)
   })
 
+  test('creating user with existing username', async () => {
+    const usersBefore = await helper.usersInDB()
+    const newUser = {
+      username: 'root',
+      name: 'name',
+      password: 'secret'
+    }
+    const response = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+    const usersAfter = await helper.usersInDB()
+    assert(response.body.error.includes('expected `username` to be unique'))
+    assert.strictEqual(usersBefore.length, usersAfter.length)
+  })
+
   after(async () => {
     await mongoose.connection.close()
   })
