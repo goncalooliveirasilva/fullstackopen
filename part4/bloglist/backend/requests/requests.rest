@@ -4,7 +4,7 @@ GET http://localhost:3003/api/blogs
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2ODg4ZDQwODAzMzRjZDYxOGRhZjYwYjYiLCJpYXQiOjE3NTM4MDE3MDJ9.77jc2FCWP0qWodlBw0MP9YYg6YnN8Ga4RUu9Wih9W2Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2ODg4ZDQwODAzMzRjZDYxOGRhZjYwYjYiLCJpYXQiOjE3NTM4MDIzOTl9.O9o2cHFmvmDPoKCsu8nP1FeaFBXaEjTPMcYdp-YsyZA
 
 {
     "title": "Fullstack development is cool!",
