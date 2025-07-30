@@ -99,7 +99,7 @@ describe('Testing users api (already one user in db)', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
     const usersAfter = await helper.usersInDB()
-    assert(response.body.error.includes('expected `username` to be unique'))
+    assert(response.body.error.includes('Expected `username` to be unique'))
     assert.strictEqual(usersBefore.length, usersAfter.length)
   })
 

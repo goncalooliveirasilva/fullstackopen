@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const api = supertest(app)
 
@@ -26,12 +27,38 @@ const initialBlogs = [
   }
 ]
 
+let token = ''
+
 beforeEach(async () => {
   await Blog.deleteMany({})
-  let blog = new Blog(initialBlogs[0])
-  await blog.save()
-  blog = new Blog(initialBlogs[1])
-  await blog.save()
+  await User.deleteMany({})
+
+  // new user
+  const newUser = {
+    username: 'testuser',
+    name: 'test',
+    password: '1234'
+  }
+  await api
+    .post('/api/users')
+    .send(newUser)
+
+  // login to get token
+  const loginResponse = await api
+    .post('/api/login')
+    .send({ username: newUser.username, password: newUser.password })
+
+  token = loginResponse.body.token
+
+  await api
+    .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
+    .send(initialBlogs[0])
+
+  await api
+    .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
+    .send(initialBlogs[1])
 })
 
 describe('testing api', () => {
@@ -62,11 +89,14 @@ describe('testing api', () => {
     }
     await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
+
     const response = await api.get('/api/blogs')
     const titles = response.body.map(b => b.title)
+
     assert.strictEqual(response.body.length, initialBlogs.length + 1)
     assert(titles.includes('Testing the api'))
   })
@@ -79,11 +109,14 @@ describe('testing api', () => {
     }
     await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
+
     const response = await api.get('/api/blogs')
     const likes = response.body.map(b => b.likes)
+
     assert.strictEqual(response.body.length, initialBlogs.length + 1)
     assert(likes.includes(0))
   })
@@ -96,6 +129,7 @@ describe('testing api', () => {
     }
     await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
       .expect(400)
   })
@@ -108,6 +142,7 @@ describe('testing api', () => {
     }
     await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
       .expect(400)
   })
@@ -117,9 +152,12 @@ describe('testing api', () => {
     const blogToDelete = blogsBefore.body[0]
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
+      .set('Authorization', `Bearer ${token}`)
       .expect(204)
+
     const blogsAfter = await api.get('/api/blogs')
     const titles = blogsAfter.body.map(b => b.title)
+
     assert(!titles.includes('React patterns'))
     assert.strictEqual(blogsAfter.body.length, initialBlogs.length - 1)
   })
@@ -130,10 +168,26 @@ describe('testing api', () => {
     const updatedLikes = blogToUpdate.likes + 1
     await api
       .put(`/api/blogs/${blogToUpdate.id}`)
+      .set('Authorization', `Bearer ${token}`)
       .send({ likes: updatedLikes })
+
     const blogsAfter = await api.get('/api/blogs')
     const updatedBlog = blogsAfter.body.find(b => b.id === blogToUpdate.id)
+
     assert.strictEqual(updatedBlog.likes, blogToUpdate.likes + 1)
+  })
+
+  test('create a blog without token', async () => {
+    const newBlog = {
+      title: 'Testing the api',
+      author: 'me',
+      url: 'www.something.com',
+      likes: 5
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(401)
   })
 
   after(async () => {
