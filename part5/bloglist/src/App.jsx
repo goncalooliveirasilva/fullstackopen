@@ -14,6 +14,13 @@ function App() {
       .then(blogs => setBlogs(blogs))
   }, [])
 
+  useEffect(() => {
+    const loggedUser = window.localStorage.getItem('loggedBlogsUser')
+    if (loggedUser) {
+      setUser(JSON.parse(loggedUser))
+    }
+  }, [])
+
   return (
     <div>
       { user === null && <LoginForm
@@ -23,7 +30,7 @@ function App() {
         setPassword={setPassword}
         setUser={setUser}
       /> }
-      { user !== null && <Content username={user.name} blogs={blogs} />}
+      { user !== null && <Content username={user.name} blogs={blogs} setUser={setUser} />}
     </div>
   )
 }
