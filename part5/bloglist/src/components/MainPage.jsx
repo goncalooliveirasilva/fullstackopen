@@ -1,14 +1,21 @@
 import Blog from "./Blog"
-import LogoutButton from "./LogoutButton"
+import NewBlogForm from "./NewBlogForm"
 
 const Content = ({ username, blogs, setUser }) => {
+  const onHandleClick = () => {
+    window.localStorage.removeItem('loggedBlogsUser')
+    setUser(null)
+  }
   return <>
     <h2>Blogs</h2>
     <div>
       <p>
         {username} logged in
-        <LogoutButton setUser={setUser} />
+        <button onClick={ onHandleClick }>logout</button>
       </p>
+    </div>
+    <div>
+      <NewBlogForm />
     </div>
     {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
   </>

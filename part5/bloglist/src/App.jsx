@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import LoginForm from './components/LoginForm'
-import Content from './components/Content'
+import Content from './components/MainPage'
 import blogService from './services/blogs'
 
 function App() {

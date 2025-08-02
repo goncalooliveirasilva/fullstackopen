@@ -1,5 +1,6 @@
 import { useId } from "react"
 import loginService from '../services/login'
+import blogService from '../services/blogs'
 
 const LoginForm = ({username, setUsername, password, setPassword, setUser}) => {
   const usernameID = useId()
@@ -13,6 +14,7 @@ const LoginForm = ({username, setUsername, password, setPassword, setUser}) => {
         password
       })
       window.localStorage.setItem('loggedBlogsUser', JSON.stringify(user))
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
