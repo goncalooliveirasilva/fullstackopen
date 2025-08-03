@@ -2,7 +2,7 @@ import { useId } from "react"
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
-const LoginForm = ({username, setUsername, password, setPassword, setUser}) => {
+const LoginForm = ({username, setUsername, password, setPassword, setUser, displayNotifics}) => {
   const usernameID = useId()
   const passwordID = useId()
 
@@ -18,7 +18,9 @@ const LoginForm = ({username, setUsername, password, setPassword, setUser}) => {
       setUser(user)
       setUsername('')
       setPassword('')
+      displayNotifics('Login successfully :)', true)
     } catch (exception) {
+      displayNotifics('Wrong username or password!', false)
       console.log(exception)
     }
   }

@@ -1,7 +1,7 @@
 import Blog from "./Blog"
 import NewBlogForm from "./NewBlogForm"
 
-const Content = ({ username, blogs, setUser }) => {
+const MainPage = ({ username, blogs, setUser, setBlogs, displayNotifics }) => {
   const onHandleClick = () => {
     window.localStorage.removeItem('loggedBlogsUser')
     setUser(null)
@@ -15,10 +15,14 @@ const Content = ({ username, blogs, setUser }) => {
       </p>
     </div>
     <div>
-      <NewBlogForm />
+      <NewBlogForm
+        displayNotifics={displayNotifics}
+        setBlogs={setBlogs}
+        blogs={blogs} 
+      />
     </div>
     {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
   </>
 }
 
-export default Content
+export default MainPage

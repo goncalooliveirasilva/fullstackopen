@@ -1,27 +1,42 @@
 import { useId, useState } from "react"
 import blogService from '../services/blogs'
 
-const NewBlogForm = () => {
+const NewBlogForm = ({ setBlogs, blogs, displayNotifics }) => {
   const titleId = useId()
   const authorId = useId()
   const urlId = useId()
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-
+ 
   const handleNewNote = async (e) => {
     e.preventDefault()
     try {
-      await blogService.add({
+      if (title.length === 0) {
+        displayNotifics('Title is empty!', false)
+        return
+      }
+      if (author.length === 0) {
+        displayNotifics('Author is empty!', false)
+        return
+      }
+      if (url.length === 0) {
+        displayNotifics('Url is empty!', false)
+        return
+      }
+      const response = await blogService.add({
         title,
         author,
         url
       })
-
+      console.log(response)
+      setBlogs([...blogs, response])
       setTitle('')
       setAuthor('')
       setUrl('')
+      displayNotifics(`New Blog "${response.title}" added!`, true)
     } catch (exception) {
+      displayNotifics('New blog not saved! Something bad happened :(', false)
       console.log(exception)
     }
   }
