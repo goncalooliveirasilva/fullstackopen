@@ -14,7 +14,7 @@ const getAll = async () => {
 }
 
 const add = async (newBlog) => {
-    console.log('tttttt', token)
+    console.log('token:', token)
     const response = await axios.post(baseUrl, newBlog, {
         headers: {
             Authorization: token

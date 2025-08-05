@@ -74,7 +74,7 @@ const NewBlogForm = ({ setBlogs, blogs, displayNotifics }) => {
         />
       </div>
       <div>
-        <button type="submit">create</button>
+        <button type="submit">Create</button>
       </div>
     </form>
   </>

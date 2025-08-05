@@ -1,5 +1,6 @@
 import Blog from "./Blog"
 import NewBlogForm from "./NewBlogForm"
+import Togglable from "./Togglable"
 
 const MainPage = ({ username, blogs, setUser, setBlogs, displayNotifics }) => {
   const onHandleClick = () => {
@@ -14,13 +15,13 @@ const MainPage = ({ username, blogs, setUser, setBlogs, displayNotifics }) => {
         <button onClick={ onHandleClick }>logout</button>
       </p>
     </div>
-    <div>
+    <Togglable buttonLabel={'New Blog'}>
       <NewBlogForm
         displayNotifics={displayNotifics}
         setBlogs={setBlogs}
         blogs={blogs} 
       />
-    </div>
+    </Togglable>
     {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
   </>
 }
