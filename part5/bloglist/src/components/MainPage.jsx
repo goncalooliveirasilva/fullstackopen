@@ -1,8 +1,17 @@
-import Blog from "./Blog"
+import { useEffect, useState } from "react"
+import Blogs from "./Blogs"
 import NewBlogForm from "./NewBlogForm"
 import Togglable from "./Togglable"
+import blogService from '../services/blogs'
 
-const MainPage = ({ username, blogs, setUser, setBlogs, displayNotifics }) => {
+const MainPage = ({ user, setUser, displayNotifics }) => {
+  const [blogs, setBlogs] = useState([])
+
+  useEffect(() => {
+    blogService.getAll()
+      .then(blogs => setBlogs(blogs))
+  }, [])
+
   const onHandleClick = () => {
     window.localStorage.removeItem('loggedBlogsUser')
     setUser(null)
@@ -11,7 +20,7 @@ const MainPage = ({ username, blogs, setUser, setBlogs, displayNotifics }) => {
     <h2>Blogs</h2>
     <div>
       <p>
-        {username} logged in
+        {user.name} logged in
         <button onClick={ onHandleClick }>logout</button>
       </p>
     </div>
@@ -22,7 +31,7 @@ const MainPage = ({ username, blogs, setUser, setBlogs, displayNotifics }) => {
         blogs={blogs} 
       />
     </Togglable>
-    {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
+    <Blogs blogs={blogs} setBlogs={setBlogs} username={user.username} />
   </>
 }
 

@@ -1,10 +1,12 @@
-import { useId } from "react"
+import { useId, useState } from "react"
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
-const LoginForm = ({username, setUsername, password, setPassword, setUser, displayNotifics}) => {
+const LoginForm = ({setUser, displayNotifics}) => {
   const usernameID = useId()
   const passwordID = useId()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   const handleLogin = async (e) => {
     e.preventDefault()

@@ -14,8 +14,18 @@ const getAll = async () => {
 }
 
 const add = async (newBlog) => {
-    console.log('token:', token)
+    // console.log('token:', token)
     const response = await axios.post(baseUrl, newBlog, {
+        headers: {
+            Authorization: token
+        }
+    })
+    // console.log(response.data)
+    return response.data
+}
+
+const update = async (updtatedBlog) => {
+    const response = await axios.put(`${baseUrl}/${updtatedBlog.id}`, updtatedBlog, {
         headers: {
             Authorization: token
         }
@@ -23,4 +33,13 @@ const add = async (newBlog) => {
     return response.data
 }
 
-export default { getAll, add, setToken }
+const remove = async (blogId) => {
+    const response = await axios.delete(`${baseUrl}/${blogId}`, {
+        headers: {
+            Authorization: token
+        }
+    })
+    return response.data
+}
+
+export default { getAll, add, setToken, update, remove }

@@ -31,6 +31,9 @@ blogsRouter.post('/', userExtractor, async (request, response, next) => {
     const savedBlog = await blog.save()
     user.blogs = user.blogs.concat(savedBlog._id)
     await user.save()
+
+    // changed this because exercise 5.11
+    await savedBlog.populate('user', { username: 1 })
     response.status(201).json(savedBlog)
   } catch (error) {
     next(error)
@@ -56,7 +59,7 @@ blogsRouter.delete('/:id', userExtractor, async (request, response, next) => {
   }
 })
 
-blogsRouter.put('/:id', (request, response, next) => {
+blogsRouter.put('/:id', userExtractor, (request, response, next) => {
   const { likes } = request.body
   Blog.findById(request.params.id)
     .then((blog) => {
