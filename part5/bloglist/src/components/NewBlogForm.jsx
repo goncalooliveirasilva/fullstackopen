@@ -1,7 +1,7 @@
 import { useId, useState } from "react"
 import blogService from '../services/blogs'
 
-const NewBlogForm = ({ setBlogs, blogs, displayNotifics }) => {
+const NewBlogForm = ({ setBlogs, blogs, displayNotifics, ref }) => {
   const titleId = useId()
   const authorId = useId()
   const urlId = useId()
@@ -24,6 +24,7 @@ const NewBlogForm = ({ setBlogs, blogs, displayNotifics }) => {
         displayNotifics('Url is empty!', false)
         return
       }
+      ref.current.toggleVisibility()
       const response = await blogService.add({
         title,
         author,

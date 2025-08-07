@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import Blogs from "./Blogs"
 import NewBlogForm from "./NewBlogForm"
 import Togglable from "./Togglable"
 import blogService from '../services/blogs'
 
 const MainPage = ({ user, setUser, displayNotifics }) => {
+  const blogFormRef = useRef()
   const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
@@ -24,11 +25,12 @@ const MainPage = ({ user, setUser, displayNotifics }) => {
         <button onClick={ onHandleClick }>logout</button>
       </p>
     </div>
-    <Togglable buttonLabel={'New Blog'}>
+    <Togglable buttonLabel={'New Blog'} ref={blogFormRef}>
       <NewBlogForm
         displayNotifics={displayNotifics}
         setBlogs={setBlogs}
-        blogs={blogs} 
+        blogs={blogs}
+        ref={blogFormRef}
       />
     </Togglable>
     <Blogs blogs={blogs} setBlogs={setBlogs} username={user.username} />
