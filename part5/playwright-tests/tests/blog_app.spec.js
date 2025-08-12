@@ -1,9 +1,10 @@
 const { test, describe, beforeEach, expect } = require('@playwright/test')
+const { loginWith, createBlog } = require('./helper')
 
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
-    await request.post('http://localhost:3003/api/testing/reset')
-    await request.post('http://localhost:3003/api/users', {
+    await request.post('http://localhost:5173/api/testing/reset')
+    await request.post('http://localhost:5173/api/users', {
       data: {
         name: 'Gonçalo',
         username: 'goncalo',
@@ -41,9 +42,8 @@ describe('Blog app', () => {
 
   describe('When logged in', () => {
     beforeEach(async ({ page }) => {
-      await page.getByPlaceholder('Username').fill('goncalo')
-      await page.getByPlaceholder('Password').fill('segredo')
-      await page.getByRole('button', { name: /login/i }).click()
+      await loginWith(page, 'goncalo', 'segredo')
+      await createBlog(page, 'test title', 'test author', 'test url')
     })
 
     test('A new blog can be created', async ({ page }) => {
@@ -57,6 +57,18 @@ describe('Blog app', () => {
       await expect(notification).toContainText('New Blog "test title" added!')
       await expect(notification).toHaveCSS('background-color', 'rgb(0, 128, 0)')
       await expect(page.locator('.blog-title', { hasText: 'test title' })).toHaveCount(1)
+    })
+
+    test('Blog can be liked', async ({ page }) => {
+      const blog = page.locator('.blog-title', { hasText: 'test title' }).first()
+      const blogDiv = blog.locator('../..')
+      await blogDiv.getByRole('button', { name: /view/i }).click()
+
+      const numberOfLikes = blogDiv.locator('.blog-likes')
+      await expect(numberOfLikes).toContainText('0')
+
+      await blogDiv.getByRole('button', { name: /like/i }).click()
+      await expect(numberOfLikes).toContainText('1')
     })
   })
 })
