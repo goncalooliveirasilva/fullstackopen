@@ -6,7 +6,7 @@ const Blogs = ({ blogs, setBlogs, username }) => {
     const confirm = window.confirm(`Remove Blog ${blog.title} by ${blog.author}`)
     if (!confirm) return
     try {
-      blogService.remove(blog.id)
+      await blogService.remove(blog.id)
       setBlogs(blogs.filter(b => b.id !== blog.id))
     } catch (error) {
       console.log(error)
