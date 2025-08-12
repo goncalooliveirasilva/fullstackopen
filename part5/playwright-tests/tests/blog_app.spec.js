@@ -57,7 +57,7 @@ describe('Blog app', () => {
       await expect(notification).toContainText('New Blog "test title" added!')
       await expect(notification).toHaveCSS('background-color', 'rgb(0, 128, 0)')
       const blogs = page.locator('.blog-title', { hasText: 'test title' })
-      await expect(await blogs.count()).toBe(1)
+      expect(await blogs.count()).toBe(1)
     })
 
     test('Blog can be liked', async ({ page }) => {
@@ -82,6 +82,26 @@ describe('Blog app', () => {
       await blogDiv.getByRole('button', { name: /remove/i }).click()
     
       await expect(blog).toHaveCount(0)
+    })
+
+    test('Only the user who added the blog sees the blog\'s delete button', async ({ page, request }) => {
+      // Create new user
+      await page.getByRole('button', { name: /logout/i }).click()
+      await request.post('http://localhost:3003/api/users', {
+        data: {
+          name: 'Other User',
+          username: 'user',
+          password: 'secret'
+        }
+      })
+
+      await loginWith(page, 'user', 'secret')
+      await expect(page.getByText('Other User logged in')).toBeVisible()
+
+      const blog = page.locator('.blog-title', { name: 'test title' })
+      const blogDiv = blog.locator('../..')
+      await blogDiv.getByRole('button', { name: /view/i }).click()
+      await expect(blogDiv.getByRole('button', { name: /remove/i })).toHaveCount(0)
     })
   })
 })
