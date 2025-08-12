@@ -103,5 +103,30 @@ describe('Blog app', () => {
       await blogDiv.getByRole('button', { name: /view/i }).click()
       await expect(blogDiv.getByRole('button', { name: /remove/i })).toHaveCount(0)
     })
+
+    test('Blogs are arranged in the order according to the likes', async ({ page, request }) => {
+      // Add some blogs with likes
+      const token = await page.evaluate(() => {
+        const storedUser = window.localStorage.getItem('loggedBlogsUser')
+        return storedUser ? JSON.parse(storedUser).token : null
+      })
+
+      await request.post('http://localhost:3003/api/blogs', {
+        data: { title: 'blog_01', author: 'author_1', url: 'url_1', likes: 5 },
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      await request.post('http://localhost:3003/api/blogs', {
+        data: { title: 'blog_02', author: 'author_2', url: 'url_2', likes: 10 },
+        headers: { Authorization: `Bearer ${token}` }
+      })
+
+      await page.goto('http://localhost:5173')
+      await expect(page.locator('.blog-title')).toHaveCount(3)
+
+      const blogs = page.locator('.blog-title')
+      const titles = await blogs.allTextContents()
+
+      expect(titles).toEqual(['blog_02', 'blog_01', 'test title'])
+    })
   })
 })
