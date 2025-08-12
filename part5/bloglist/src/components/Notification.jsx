@@ -10,7 +10,7 @@ const Notification = ({ message, isSuccessful }) => {
     marginBottom: 10
   }
   return (
-    <div style={isSuccessful ? style : {...style, background: 'red'}}>
+    <div className="notification" style={isSuccessful ? style : {...style, background: 'red'}}>
       { message }
     </div>
   )
