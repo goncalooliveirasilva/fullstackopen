@@ -65,12 +65,7 @@ const anecdoteSlice = createSlice({
       })
     },
     addAnectode(state, action) {
-      const content = action.payload
-      return [...state, {
-        content,
-        id: getId(),
-        votes: 0
-      }]
+      return [...state, action.payload]
     },
     setAnecdotes(state, action) {
       return action.payload
