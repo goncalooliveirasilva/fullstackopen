@@ -70,9 +70,9 @@ const CreateNew = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content: content.value,
-      author: author.value,
-      info: info.value,
+      content: content.props.value,
+      author: author.props.value,
+      info: info.props.value,
       votes: 0
     })
     navigate('/')
@@ -92,27 +92,21 @@ const CreateNew = (props) => {
           content
           <input
             name='content'
-            type={content.type}
-            value={content.value}
-            onChange={content.onChange}
+            {...content.props}
           />
         </div>
         <div>
           author
           <input
             name='author'
-            type={author.type}
-            value={author.value}
-            onChange={author.onChange}
+            {...author.props}
           />
         </div>
         <div>
           url for more info
           <input
             name='info'
-            type={info.type}
-            value={info.value}
-            onChange={info.onChange}
+            {...info.props}
           />
         </div>
         <button type='submit'>create</button>
