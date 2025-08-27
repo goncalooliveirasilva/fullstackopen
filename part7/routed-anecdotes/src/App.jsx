@@ -78,6 +78,12 @@ const CreateNew = (props) => {
     navigate('/')
   }
 
+  const clearFields = () => {
+    content.reset()
+    author.reset()
+    info.reset()
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -109,7 +115,8 @@ const CreateNew = (props) => {
             onChange={info.onChange}
           />
         </div>
-        <button>create</button>
+        <button type='submit'>create</button>
+        <button type='button' onClick={clearFields}>reset</button>
       </form>
     </div>
   )
