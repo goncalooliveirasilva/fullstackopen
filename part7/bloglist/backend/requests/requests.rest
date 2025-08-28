@@ -1,0 +1,54 @@
+GET http://localhost:3003/api/blogs
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2ODhkMDdmMTY1ZTVjZDRhZGEyNDIwODUiLCJpYXQiOjE3NTQwNzMxMjJ9.gyl4KRwd3ZQkO1367rLM7VD7lcR7vEPtmcIIX96tfFc
+
+{
+    "title": "Fullstack development is cool!",
+    "author": "Someone",
+    "url": "something.com",
+    "likes": 1000
+}
+
+###
+
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "name": "Matti Luukkainen",
+    "username": "mluukkai",
+    "password": "secret"
+}
+
+###
+
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "name": "Gonçalo",
+    "username": "goncalo",
+    "password": "segredo"
+}
+
+###
+GET http://localhost:3003/api/users
+
+###
+
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username": "mluukkai",
+    "password": "secret"
+}
+
+###
+
+DELETE http://localhost:3003/api/blogs/6888f59e0f37655eefc9f01f
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2ODg4ZDQwODAzMzRjZDYxOGRhZjYwYjYiLCJpYXQiOjE3NTM4MDYyMjF9.kSqFo_LYYifc8BbG5Cr1sOe9AZV1AXtsI0UuEWsAfzQ

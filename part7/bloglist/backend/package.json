@@ -1,0 +1,33 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development node --watch index.js",
+    "test": "cross-env NODE_ENV=test node --test",
+    "lint": "eslint .",
+    "start:test": "NODE_ENV=test node index.js"
+  },
+  "author": "Gonçalo Silva",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "mongodb": "^6.17.0",
+    "mongoose": "^8.16.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "@stylistic/eslint-plugin-js": "^4.4.1",
+    "eslint": "^9.31.0",
+    "globals": "^16.3.0",
+    "prettier": "3.6.2",
+    "supertest": "^7.1.4"
+  }
+}
