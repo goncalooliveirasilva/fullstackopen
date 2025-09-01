@@ -1,7 +1,12 @@
-const Notification = ({ message, isSuccessful }) => {
+import { useSelector } from "react-redux"
+
+const Notification = () => {
+  const { message, isSuccessful } = useSelector((state) => state.notification)
+  if (!message) return null
+
   const style = {
     color: 'white',
-    background: 'green',
+    background: isSuccessful ? 'green' : 'red',
     fontWeight: 'bold',
     fontSize: 20,
     borderStyle: 'none',
@@ -10,7 +15,7 @@ const Notification = ({ message, isSuccessful }) => {
     marginBottom: 10
   }
   return (
-    <div className="notification" style={isSuccessful ? style : {...style, background: 'red'}}>
+    <div className="notification" style={style}>
       { message }
     </div>
   )

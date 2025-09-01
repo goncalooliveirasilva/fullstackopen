@@ -6,8 +6,6 @@ import Notification from './components/Notification'
 
 function App() {
   const [user, setUser] = useState(null)
-  const [notification, setNotification] = useState(null)
-  const [successNotification, setSuccessNotification] = useState(false)
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem('loggedBlogsUser')
@@ -18,33 +16,16 @@ function App() {
     }
   }, [])
 
-  const displayNotifics = (message, success) => {
-    setSuccessNotification(success)
-    setNotification(message)
-    setTimeout(() => setNotification(null), 3000)
-  }
-
   // console.log('user:', user)
 
   return (
     <div>
       <div>
-        { notification !== null &&  <Notification 
-            message={notification}
-            isSuccessful={successNotification}
-          />
-        }
+        <Notification />
       </div>
-      { user === null && <LoginForm
-          setUser={setUser}
-          displayNotifics={displayNotifics}
-        /> 
-      }
-      { user !== null && <MainPage
-          displayNotifics={displayNotifics}
-          user={user}
-          setUser={setUser}
-        />
+      { user === null
+        ? <LoginForm setUser={setUser} />
+        : <MainPage user={user} setUser={setUser} />
       }
     </div>
   )

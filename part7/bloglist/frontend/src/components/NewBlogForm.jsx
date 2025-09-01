@@ -1,27 +1,30 @@
-import { useId, useState } from "react"
+import { use, useId, useState } from "react"
+import { useDispatch } from "react-redux"
 import blogService from '../services/blogs'
+import { setNotification } from "../reducers/notificationReducer"
 
-const NewBlogForm = ({ setBlogs, blogs, displayNotifics, ref }) => {
+const NewBlogForm = ({ setBlogs, blogs, ref }) => {
   const titleId = useId()
   const authorId = useId()
   const urlId = useId()
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const dispatch = useDispatch()
  
   const handleNewNote = async (e) => {
     e.preventDefault()
     try {
       if (title.length === 0) {
-        displayNotifics('Title is empty!', false)
+        dispatch(setNotification('Title is empty!', false))
         return
       }
       if (author.length === 0) {
-        displayNotifics('Author is empty!', false)
+        dispatch(setNotification('Author is empty!', false))
         return
       }
       if (url.length === 0) {
-        displayNotifics('Url is empty!', false)
+        dispatch(setNotification('URL is empty!', false))
         return
       }
       ref.current.toggleVisibility()
@@ -35,9 +38,9 @@ const NewBlogForm = ({ setBlogs, blogs, displayNotifics, ref }) => {
       setTitle('')
       setAuthor('')
       setUrl('')
-      displayNotifics(`New Blog "${response.title}" added!`, true)
+      dispatch(setNotification(`New Blog "${response.title}" added!`, true))
     } catch (exception) {
-      displayNotifics('New blog not saved! Something bad happened :(', false)
+      dispatch(setNotification('New Blog not not saved! Something bad happened :(', false))
       console.log(exception)
     }
   }

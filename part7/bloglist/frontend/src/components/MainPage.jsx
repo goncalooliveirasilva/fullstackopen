@@ -4,7 +4,7 @@ import NewBlogForm from "./NewBlogForm"
 import Togglable from "./Togglable"
 import blogService from '../services/blogs'
 
-const MainPage = ({ user, setUser, displayNotifics }) => {
+const MainPage = ({ user, setUser }) => {
   const blogFormRef = useRef()
   const [blogs, setBlogs] = useState([])
 
@@ -27,7 +27,6 @@ const MainPage = ({ user, setUser, displayNotifics }) => {
     </div>
     <Togglable buttonLabel={'New Blog'} ref={blogFormRef}>
       <NewBlogForm
-        displayNotifics={displayNotifics}
         setBlogs={setBlogs}
         blogs={blogs}
         ref={blogFormRef}
