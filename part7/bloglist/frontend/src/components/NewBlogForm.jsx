@@ -1,9 +1,10 @@
-import { use, useId, useState } from "react"
+import { useId, useState } from "react"
 import { useDispatch } from "react-redux"
 import blogService from '../services/blogs'
 import { setNotification } from "../reducers/notificationReducer"
+import { createBlog } from "../reducers/blogsReducer"
 
-const NewBlogForm = ({ setBlogs, blogs, ref }) => {
+const NewBlogForm = ({ ref }) => {
   const titleId = useId()
   const authorId = useId()
   const urlId = useId()
@@ -11,9 +12,10 @@ const NewBlogForm = ({ setBlogs, blogs, ref }) => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const dispatch = useDispatch()
- 
+
   const handleNewNote = async (e) => {
     e.preventDefault()
+
     try {
       if (title.length === 0) {
         dispatch(setNotification('Title is empty!', false))
@@ -27,17 +29,16 @@ const NewBlogForm = ({ setBlogs, blogs, ref }) => {
         dispatch(setNotification('URL is empty!', false))
         return
       }
+
       ref.current.toggleVisibility()
-      const response = await blogService.add({
-        title,
-        author,
-        url
-      })
-      console.log(response)
-      setBlogs([...blogs, response])
+      const response = await blogService.add({ title, author, url })
+      dispatch(createBlog(response))
+      // console.log(response)
+
       setTitle('')
       setAuthor('')
       setUrl('')
+  
       dispatch(setNotification(`New Blog "${response.title}" added!`, true))
     } catch (exception) {
       dispatch(setNotification('New Blog not not saved! Something bad happened :(', false))

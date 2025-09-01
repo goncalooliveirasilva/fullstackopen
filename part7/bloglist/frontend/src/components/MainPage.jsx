@@ -1,16 +1,18 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect,  useRef } from "react"
 import Blogs from "./Blogs"
 import NewBlogForm from "./NewBlogForm"
 import Togglable from "./Togglable"
 import blogService from '../services/blogs'
+import { setBlogs } from "../reducers/blogsReducer"
+import { useDispatch } from "react-redux"
 
 const MainPage = ({ user, setUser }) => {
   const blogFormRef = useRef()
-  const [blogs, setBlogs] = useState([])
+  const dispatch = useDispatch()
 
   useEffect(() => {
     blogService.getAll()
-      .then(blogs => setBlogs(blogs))
+      .then(blogs => dispatch(setBlogs(blogs)))
   }, [])
 
   const onHandleClick = () => {
@@ -26,13 +28,9 @@ const MainPage = ({ user, setUser }) => {
       </p>
     </div>
     <Togglable buttonLabel={'New Blog'} ref={blogFormRef}>
-      <NewBlogForm
-        setBlogs={setBlogs}
-        blogs={blogs}
-        ref={blogFormRef}
-      />
+      <NewBlogForm ref={blogFormRef} />
     </Togglable>
-    <Blogs blogs={blogs} setBlogs={setBlogs} username={user.username} />
+    <Blogs username={user.username} />
   </>
 }
 
