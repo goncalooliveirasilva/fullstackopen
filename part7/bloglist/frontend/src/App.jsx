@@ -3,15 +3,18 @@ import LoginForm from './components/LoginForm'
 import MainPage from './components/MainPage'
 import blogService from './services/blogs'
 import Notification from './components/Notification'
+import { useDispatch, useSelector } from 'react-redux'
+import { setUser } from './reducers/userReducer'
 
 function App() {
-  const [user, setUser] = useState(null)
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user)
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem('loggedBlogsUser')
     if (loggedUser) {
       const user = JSON.parse(loggedUser)
-      setUser(user)
+      dispatch(setUser(user))
       blogService.setToken(user.token)
     }
   }, [])
@@ -23,10 +26,7 @@ function App() {
       <div>
         <Notification />
       </div>
-      { user === null
-        ? <LoginForm setUser={setUser} />
-        : <MainPage user={user} setUser={setUser} />
-      }
+      {user === null ? <LoginForm /> : <MainPage />}
     </div>
   )
 }
