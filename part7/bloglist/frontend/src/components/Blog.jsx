@@ -1,11 +1,13 @@
 import { useState } from "react"
 import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
+import { useDispatch } from "react-redux"
+import { updateBlog } from "../reducers/blogsReducer"
 
 const Blog = ({ blog, username, handleRemoveClick }) => {
   const [visible, setVisible] = useState(false)
-  const [likes, setLikes] = useState(blog.likes)
-  const [liked, setLiked] = useState(false)
+  const dispatch = useDispatch()
+
   const style = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -22,11 +24,10 @@ const Blog = ({ blog, username, handleRemoveClick }) => {
   }
 
   const handleLikeClick = async () => {
-    const newLikes = liked ? likes - 1 : likes + 1
+    const updated = { ...blog, likes: blog.likes + 1 }
     try {
-      await blogService.update({ ...blog, likes: newLikes })
-      setLikes(newLikes)
-      setLiked(!liked)
+      const response = await blogService.update(updated)
+      dispatch(updateBlog({ ...response, user: blog.user }))
     } catch (error) {
       console.log('Failed to update likes:', error)
     }
@@ -44,8 +45,8 @@ const Blog = ({ blog, username, handleRemoveClick }) => {
         <div className="blog-details">
           <p className="blog-url">{blog.url}</p>
           <div>
-            <p className="blog-likes">{likes}</p>
-            <button onClick={handleLikeClick}>{ liked ? 'Dislike' : 'Like' }</button>
+            <p className="blog-likes">{blog.likes}</p>
+            <button onClick={handleLikeClick}>Like</button>
           </div>
           <p>{blog.user.name}</p>
           { username === blog.user.username &&

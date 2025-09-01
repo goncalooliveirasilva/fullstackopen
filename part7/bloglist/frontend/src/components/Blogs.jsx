@@ -3,7 +3,7 @@ import blogService from '../services/blogs'
 import Blog from "./Blog"
 import { setNotification } from '../reducers/notificationReducer'
 import { useSelector } from 'react-redux'
-import { setBlogs } from '../reducers/blogsReducer'
+import { removeBlog } from '../reducers/blogsReducer'
 
 const Blogs = ({ username }) => {
   const dispatch = useDispatch()
@@ -15,7 +15,7 @@ const Blogs = ({ username }) => {
     if (!confirm) return
     try {
       await blogService.remove(blog.id)
-      dispatch(setBlogs(blogs.filter(b => b.id !== blog.id)))
+      dispatch(removeBlog(blog.id))
       dispatch(setNotification(`Blog "${blog.title} removed successfully!"`, true))      
     } catch (error) {
       dispatch(setNotification('Blog not removed. Something bad happened!', false))
