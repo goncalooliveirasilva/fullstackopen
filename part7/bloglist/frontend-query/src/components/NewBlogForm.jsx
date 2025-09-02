@@ -1,8 +1,9 @@
 import { useId, useState } from 'react'
 import blogService from '../services/blogs'
 import { useNotification } from './NotificationContext'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-const NewBlogForm = ({ setBlogs, blogs, ref }) => {
+const NewBlogForm = ({ ref }) => {
   const titleId = useId()
   const authorId = useId()
   const urlId = useId()
@@ -10,43 +11,43 @@ const NewBlogForm = ({ setBlogs, blogs, ref }) => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const { setNotification } = useNotification()
+  const queryClient = useQueryClient()
+
+  const newBlogMutation = useMutation({
+    mutationFn: blogService.add,
+    onSuccess: (newBlog) => {
+      const blogs = queryClient.getQueryData(['blogs'])
+      queryClient.setQueryData(['blogs'], blogs.concat(newBlog))
+      setNotification('New blog added successfully!')
+      ref.current.toggleVisibility()
+    },
+    onError: () => {
+      setNotification('Failed to create blog.', false)
+    },
+  })
 
   const handleNewNote = async (e) => {
     e.preventDefault()
-    try {
-      if (title.length === 0) {
-        // displayNotifics('Title is empty!', false)
-        setNotification('Title is empty!', false)
-        return
-      }
-      if (author.length === 0) {
-        // displayNotifics('Author is empty!', false)
-        setNotification('Author is empty!', false)
-        return
-      }
-      if (url.length === 0) {
-        // displayNotifics('Url is empty!', false)
-        setNotification('URL is empty!', false)
-        return
-      }
-      ref.current.toggleVisibility()
-      const response = await blogService.add({
-        title,
-        author,
-        url,
-      })
-      console.log(response)
-      setBlogs([...blogs, response])
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-      // displayNotifics(`New Blog "${response.title}" added!`, true)
-      setNotification(`New Blog "${response.title}" added!`)
-    } catch (exception) {
-      // displayNotifics('New blog not saved! Something bad happened :(', false)
-      setNotification('New Blog not saved! Something bad happened :(', false)
-      console.log(exception)
+    if (title.length === 0) {
+      // displayNotifics('Title is empty!', false)
+      setNotification('Title is empty!', false)
+      return
     }
+    if (author.length === 0) {
+      // displayNotifics('Author is empty!', false)
+      setNotification('Author is empty!', false)
+      return
+    }
+    if (url.length === 0) {
+      // displayNotifics('Url is empty!', false)
+      setNotification('URL is empty!', false)
+      return
+    }
+    newBlogMutation.mutate({ title, author, url })
+    // setBlogs([...blogs, response])
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   return (
