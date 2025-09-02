@@ -1,22 +1,23 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useContext } from 'react'
 import LoginForm from './components/LoginForm'
 import MainPage from './components/MainPage'
 import blogService from './services/blogs'
 import Notification from './components/Notification'
 import { useNotification } from './components/NotificationContext'
+import UserContext from './components/UserContext'
 
 function App() {
-  const [user, setUser] = useState(null)
+  const [user, dispatch] = useContext(UserContext)
   const { notification } = useNotification()
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem('loggedBlogsUser')
     if (loggedUser) {
-      const user = JSON.parse(loggedUser)
-      setUser(user)
-      blogService.setToken(user.token)
+      const parsedUser = JSON.parse(loggedUser)
+      dispatch({ type: 'SET', payload: parsedUser })
+      blogService.setToken(parsedUser.token)
     }
-  }, [])
+  }, [dispatch])
 
   // console.log('user:', user)
 
@@ -28,11 +29,7 @@ function App() {
           isSuccessful={notification.success}
         />
       )}
-      {user === null ? (
-        <LoginForm setUser={setUser} />
-      ) : (
-        <MainPage user={user} setUser={setUser} />
-      )}
+      {user === null ? <LoginForm /> : <MainPage />}
     </div>
   )
 }

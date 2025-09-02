@@ -1,9 +1,11 @@
-import { useId, useState } from 'react'
+import { useId, useState, useContext } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 import { useNotification } from './NotificationContext'
+import UserContext from './UserContext'
 
-const LoginForm = ({ setUser, displayNotifics }) => {
+const LoginForm = () => {
+  const [, dispatch] = useContext(UserContext)
   const usernameID = useId()
   const passwordID = useId()
   const [username, setUsername] = useState('')
@@ -19,7 +21,7 @@ const LoginForm = ({ setUser, displayNotifics }) => {
       })
       window.localStorage.setItem('loggedBlogsUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      setUser(user)
+      dispatch({ type: 'SET', payload: user })
       setUsername('')
       setPassword('')
       // displayNotifics('Login successfully :)', true)

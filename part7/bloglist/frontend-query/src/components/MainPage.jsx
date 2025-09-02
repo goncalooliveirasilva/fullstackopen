@@ -1,12 +1,14 @@
-import { useRef } from 'react'
+import { useRef, useContext } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import Blogs from './Blogs'
 import NewBlogForm from './NewBlogForm'
 import Togglable from './Togglable'
 import blogService from '../services/blogs'
+import UserContext from './UserContext'
 
-const MainPage = ({ user, setUser }) => {
+const MainPage = () => {
   const blogFormRef = useRef()
+  const [user, dispatch] = useContext(UserContext)
   // const [blogs, setBlogs] = useState([])
 
   const result = useQuery({
@@ -18,6 +20,10 @@ const MainPage = ({ user, setUser }) => {
     return <p>Loading blogs...</p>
   }
 
+  if (result.isError) {
+    return <p>Failed to load blogs.</p>
+  }
+
   const blogs = result.data
 
   // useEffect(() => {
@@ -27,7 +33,7 @@ const MainPage = ({ user, setUser }) => {
 
   const onHandleClick = () => {
     window.localStorage.removeItem('loggedBlogsUser')
-    setUser(null)
+    dispatch({ type: 'CLEAR' })
   }
   return (
     <>

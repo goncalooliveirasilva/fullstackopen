@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { ErrorBoundary } from 'react-error-boundary'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { NotificationContextProvider } from './components/NotificationContext.jsx'
+import { UserContextProvider } from './components/UserContext.jsx'
 import App from './App.jsx'
 
 const FallbackComponent = ({ error }) => {
@@ -21,7 +22,9 @@ createRoot(document.getElementById('root')).render(
     <ErrorBoundary FallbackComponent={FallbackComponent}>
       <QueryClientProvider client={queryClient}>
         <NotificationContextProvider>
-          <App />
+          <UserContextProvider>
+            <App />
+          </UserContextProvider>
         </NotificationContextProvider>
       </QueryClientProvider>
     </ErrorBoundary>
