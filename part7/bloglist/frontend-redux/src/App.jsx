@@ -8,6 +8,7 @@ import { setUser } from './reducers/userReducer'
 import { Routes, Route, Link, Navigate } from 'react-router-dom'
 import Users from './components/Users'
 import User from './components/User'
+import BlogDetails from './components/BlogDetails'
 
 function App() {
   const dispatch = useDispatch()
@@ -45,6 +46,7 @@ function App() {
             <Route path="/" element={<MainPage />} />
             <Route path="/users" element={<Users />} />
             <Route path="/users/:id" element={<User />} />
+            <Route path="/blogs/:id" element={<BlogDetails />} />
           </Routes>
         </>
       ) : (
