@@ -1,51 +1,45 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setUser } from '../reducers/userReducer'
 import { setAllUsers } from '../reducers/allUsersReducer'
 import usersService from '../services/users'
+import { Link } from 'react-router-dom'
 
-const Users = (props) => {
-  const user = useSelector((state) => state.user)
+const Users = () => {
   const allUsers = useSelector((state) => state.allUsers)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    usersService.getUsers().then((users) => dispatch(setAllUsers(users)))
-  }, [])
+    if (!allUsers || allUsers.length === 0) {
+      usersService.getUsers().then((users) => dispatch(setAllUsers(users)))
+    }
+  }, [dispatch, allUsers])
 
-  const onHandleClick = () => {
-    window.localStorage.removeItem('loggedBlogsUser')
-    dispatch(setUser(null))
-  }
-
-  if (!user) return null
-  if (allUsers) console.log(allUsers)
+  if (!allUsers) return <p>Loading users...</p>
 
   return (
-    <>
-      <h2>Blogs</h2>
-      <div>
-        <p>{user.name} logged in</p>
-        <button onClick={onHandleClick}>logout</button>
-      </div>
-      <div>
-        <h2>Users</h2>
-        <table>
+    <div>
+      <h2>Users</h2>
+      <table>
+        <thead>
           <tr>
             <td>Users</td>
             <td>
               <b>Blogs created</b>
             </td>
           </tr>
+        </thead>
+        <tbody>
           {allUsers.map((user) => (
-            <tr>
-              <td>{user.name}</td>
+            <tr key={user.id}>
+              <td>
+                <Link to={`/users/${user.id}`}>{user.name}</Link>
+              </td>
               <td>{user.blogs.length}</td>
             </tr>
           ))}
-        </table>
-      </div>
-    </>
+        </tbody>
+      </table>
+    </div>
   )
 }
 

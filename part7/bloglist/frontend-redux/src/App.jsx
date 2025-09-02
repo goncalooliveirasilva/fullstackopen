@@ -1,20 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import LoginForm from './components/LoginForm'
 import MainPage from './components/MainPage'
 import blogService from './services/blogs'
 import Notification from './components/Notification'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from './reducers/userReducer'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, Navigate } from 'react-router-dom'
 import Users from './components/Users'
+import User from './components/User'
 
 function App() {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
-
-  const style = {
-    padding: 5,
-  }
+  const currentUser = useSelector((state) => state.user)
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem('loggedBlogsUser')
@@ -23,31 +20,40 @@ function App() {
       dispatch(setUser(user))
       blogService.setToken(user.token)
     }
-  }, [])
+  }, [dispatch])
 
-  // console.log('user:', user)
+  const style = {
+    padding: 5,
+  }
 
-  // return (
-  //   <div>
-  //     <div>
-  //       <Notification />
-  //     </div>
-  //     {user === null ? <LoginForm /> : <MainPage />}
-  //   </div>
-  // )
   return (
-    <>
-      <BrowserRouter>
-        <div>
-          <Link style={style} to={'/users'}>
-            Users
-          </Link>
-        </div>
+    <div>
+      <Notification />
+
+      {currentUser ? (
+        <>
+          <nav>
+            <Link style={style} to="/">
+              Blogs
+            </Link>
+            <Link style={style} to="/users">
+              Users
+            </Link>
+          </nav>
+
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/users/:id" element={<User />} />
+          </Routes>
+        </>
+      ) : (
         <Routes>
-          <Route path="/users" element={<Users />} />
+          <Route path="/" element={<LoginForm />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </BrowserRouter>
-    </>
+      )}
+    </div>
   )
 }
 
