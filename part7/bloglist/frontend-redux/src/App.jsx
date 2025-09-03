@@ -24,7 +24,12 @@ function App() {
   }, [dispatch])
 
   const style = {
-    padding: 5,
+    padding: 1,
+  }
+
+  const onHandleClick = () => {
+    window.localStorage.removeItem('loggedBlogsUser')
+    dispatch(setUser(null))
   }
 
   return (
@@ -33,13 +38,26 @@ function App() {
 
       {currentUser ? (
         <>
-          <nav>
+          <nav
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+              backgroundColor: 'aquamarine',
+            }}
+          >
             <Link style={style} to="/">
               Blogs
             </Link>
             <Link style={style} to="/users">
               Users
             </Link>
+            <span style={{ marginLeft: 'auto' }}>
+              {currentUser.name} logged in
+              <button onClick={onHandleClick} style={{ marginLeft: '0.5rem' }}>
+                logout
+              </button>
+            </span>
           </nav>
 
           <Routes>

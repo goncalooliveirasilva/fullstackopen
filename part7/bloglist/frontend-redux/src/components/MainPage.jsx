@@ -4,7 +4,6 @@ import NewBlogForm from './NewBlogForm'
 import Togglable from './Togglable'
 import blogService from '../services/blogs'
 import { setBlogs } from '../reducers/blogsReducer'
-import { setUser } from '../reducers/userReducer'
 import { useDispatch, useSelector } from 'react-redux'
 
 const MainPage = () => {
@@ -16,19 +15,9 @@ const MainPage = () => {
     blogService.getAll().then((blogs) => dispatch(setBlogs(blogs)))
   }, [])
 
-  const onHandleClick = () => {
-    window.localStorage.removeItem('loggedBlogsUser')
-    dispatch(setUser(null))
-  }
   return (
     <>
-      <h2>Blogs</h2>
-      <div>
-        <p>
-          {user.name} logged in
-          <button onClick={onHandleClick}>logout</button>
-        </p>
-      </div>
+      <h2>blog app</h2>
       <Togglable buttonLabel={'New Blog'} ref={blogFormRef}>
         <NewBlogForm ref={blogFormRef} />
       </Togglable>
