@@ -4,6 +4,8 @@ import { updateBlog } from '../reducers/blogsReducer'
 import { useState } from 'react'
 import blogService from '../services/blogs'
 import { setNotification } from '../reducers/notificationReducer'
+import { LikeButton, NewBlogButton } from './StyledButtons.styles'
+import { Input } from './Input.styles'
 
 const BlogDetails = () => {
   const { id } = useParams()
@@ -44,19 +46,20 @@ const BlogDetails = () => {
       <h1>{blog.title}</h1>
       <a href={blog.url}>{blog.url}</a>
       <p>
-        {blog.likes} likes <button onClick={handleLikeClick}>like</button>
+        {blog.likes} likes{' '}
+        <LikeButton onClick={handleLikeClick}>like</LikeButton>
       </p>
       <p>added by {blog.user.name}</p>
       <div>
         <h3>comments</h3>
         <form onSubmit={handleSubmit}>
           <div>
-            <input
+            <Input
               type="text"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             />
-            <button type="submit">add comment</button>
+            <NewBlogButton type="submit">add comment</NewBlogButton>
           </div>
         </form>
         <ul>

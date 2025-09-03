@@ -1,3 +1,5 @@
+import styled, { createGlobalStyle } from 'styled-components'
+import { LogoutButton } from './components/StyledButtons.styles'
 import { useEffect } from 'react'
 import LoginForm from './components/LoginForm'
 import MainPage from './components/MainPage'
@@ -9,6 +11,41 @@ import { Routes, Route, Link, Navigate } from 'react-router-dom'
 import Users from './components/Users'
 import User from './components/User'
 import BlogDetails from './components/BlogDetails'
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: Linen;
+    font-family: Arial, sans-serif;
+  }
+`
+
+const Navbar = styled.nav`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: burlywood;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 15px;
+  a {
+    text-decoration: none;
+    color: #000000ff;
+    font-weight: bold;
+    padding: 1rem 1rem;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: rgba(219, 219, 219, 1);
+    }
+  }
+`
+
+const Page = styled.div`
+  padding: 1rem;
+`
 
 function App() {
   const dispatch = useDispatch()
@@ -33,46 +70,46 @@ function App() {
   }
 
   return (
-    <div>
-      <Notification />
-      {currentUser ? (
-        <>
-          <nav
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '1rem',
-              backgroundColor: 'aquamarine',
-            }}
-          >
-            <Link style={style} to="/">
-              Blogs
-            </Link>
-            <Link style={style} to="/users">
-              Users
-            </Link>
-            <span style={{ marginLeft: 'auto' }}>
-              {currentUser.name} logged in
-              <button onClick={onHandleClick} style={{ marginLeft: '0.5rem' }}>
-                logout
-              </button>
-            </span>
-          </nav>
+    <>
+      <Page>
+        <GlobalStyle />
+        <Notification />
+        {currentUser ? (
+          <>
+            <Navbar>
+              <Link style={style} to="/">
+                Blogs
+              </Link>
+              <Link style={style} to="/users">
+                Users
+              </Link>
+              <span style={{ marginLeft: 'auto' }}>
+                <i>{currentUser.name} </i>
+                logged in.
+                <LogoutButton
+                  onClick={onHandleClick}
+                  style={{ marginLeft: '0.5rem' }}
+                >
+                  logout
+                </LogoutButton>
+              </span>
+            </Navbar>
 
+            <Routes>
+              <Route path="/" element={<MainPage />} />
+              <Route path="/users" element={<Users />} />
+              <Route path="/users/:id" element={<User />} />
+              <Route path="/blogs/:id" element={<BlogDetails />} />
+            </Routes>
+          </>
+        ) : (
           <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/users/:id" element={<User />} />
-            <Route path="/blogs/:id" element={<BlogDetails />} />
+            <Route path="/" element={<LoginForm />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
-        </>
-      ) : (
-        <Routes>
-          <Route path="/" element={<LoginForm />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      )}
-    </div>
+        )}
+      </Page>
+    </>
   )
 }
 

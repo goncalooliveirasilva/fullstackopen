@@ -4,6 +4,56 @@ import loginService from '../services/login'
 import blogService from '../services/blogs'
 import { setNotification } from '../reducers/notificationReducer'
 import { setUser } from '../reducers/userReducer'
+import { Input } from './Input.styles'
+import styled from 'styled-components'
+
+const LoginWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: Linen;
+`
+
+const LoginFormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  min-width: 320px;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 16px;
+    color: #333;
+    font-size: 24px;
+  }
+
+  label {
+    font-weight: 600;
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: #c39c0cff;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #94770bff;
+    }
+  }
+`
 
 const LoginForm = () => {
   const usernameID = useId()
@@ -36,12 +86,12 @@ const LoginForm = () => {
   }
 
   return (
-    <>
-      <h2>Log in:</h2>
-      <form onSubmit={handleLogin}>
+    <LoginWrapper>
+      <LoginFormContainer onSubmit={handleLogin}>
+        <h2>Log in:</h2>
         <div>
           <label htmlFor={usernameID}>Username</label>
-          <input
+          <Input
             id={usernameID}
             type="text"
             value={username}
@@ -51,7 +101,7 @@ const LoginForm = () => {
         </div>
         <div>
           <label htmlFor={passwordID}>Password</label>
-          <input
+          <Input
             id={passwordID}
             type="password"
             value={password}
@@ -60,8 +110,8 @@ const LoginForm = () => {
           />
         </div>
         <button type="submit">Login</button>
-      </form>
-    </>
+      </LoginFormContainer>
+    </LoginWrapper>
   )
 }
 

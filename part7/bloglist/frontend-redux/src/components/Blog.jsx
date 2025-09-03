@@ -1,23 +1,36 @@
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-const Blog = ({ blog, username, handleRemoveClick }) => {
-  const style = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    paddingBottom: 10,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
-    marginTop: 5,
-    lineHeight: 0,
+const Card = styled.div`
+  padding: 15px 5px 15px 5px;
+  border: solid;
+  border-width: 1px;
+  margin-top: 10px;
+  line-height: 1px;
+  border-radius: 10px;
+  border-color: darkgreen;
+  &:hover {
+    background-color: #d7efcaff;
+    transition: background-color 0.3s ease;
   }
+  a {
+    text-decoration: none;
+    color: darkgreen;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`
+
+const Blog = ({ blog }) => {
   // console.log('blog user', blog.user)
 
   return (
-    <div style={style}>
+    <Card>
       <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-    </div>
+    </Card>
   )
 }
 

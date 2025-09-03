@@ -1,4 +1,5 @@
-import { useState, useImperativeHandle } from "react"
+import { CancelButton, NewBlogButton } from './StyledButtons.styles'
+import { useState, useImperativeHandle } from 'react'
 
 const Togglable = (props) => {
   const [visible, setVisible] = useState(false)
@@ -12,18 +13,20 @@ const Togglable = (props) => {
 
   useImperativeHandle(props.ref, () => {
     return {
-      toggleVisibility
+      toggleVisibility,
     }
   })
 
   return (
     <div>
       <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{props.buttonLabel}</button>
+        <NewBlogButton onClick={toggleVisibility}>
+          {props.buttonLabel}
+        </NewBlogButton>
       </div>
       <div style={showWhenVisible}>
         {props.children}
-        <button onClick={toggleVisibility}>Cancel</button>
+        <CancelButton onClick={toggleVisibility}>Cancel</CancelButton>
       </div>
     </div>
   )
