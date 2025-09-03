@@ -72,14 +72,14 @@ blogsRouter.put("/:id", userExtractor, (request, response, next) => {
     .catch((error) => next(error));
 });
 
-blogsRouter.post("/:id/comments", userExtractor, (request, response, next) => {
-  const { comments } = request.body;
+blogsRouter.post("/:id/comments", (request, response, next) => {
+  const { comment } = request.body;
   Blog.findById(request.params.id)
     .then((blog) => {
       if (!blog) {
         return response.status(404).end();
       }
-      blog.comments.push(comments);
+      blog.comments.push(comment);
       return blog.save().then((updatedBlog) => response.json(updatedBlog));
     })
     .catch((error) => next(error));
