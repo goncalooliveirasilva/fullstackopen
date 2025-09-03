@@ -4,13 +4,14 @@ GET http://localhost:3003/api/blogs
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2ODhkMDdmMTY1ZTVjZDRhZGEyNDIwODUiLCJpYXQiOjE3NTQwNzMxMjJ9.gyl4KRwd3ZQkO1367rLM7VD7lcR7vEPtmcIIX96tfFc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdvbmNhbG8iLCJpZCI6IjY4OGUxYjkxNWE5ZDJmMTdmMGJhZjdmNSIsImlhdCI6MTc1Njg5NzgxOX0.jsIefNmuLT2dpYnRjN0YxpTPIFz7HdbOT3Vj7s662Nw
 
 {
-    "title": "Fullstack development is cool!",
-    "author": "Someone",
-    "url": "something.com",
-    "likes": 1000
+    "title": "The Power of Three.js",
+    "author": "Ferid Brković",
+    "url": "https://javascript.plainenglish.io/the-power-of-three-js-4cbc489c2a73",
+    "likes": 182,
+    "comments": ["i've done a lot of cool stuff with three.js"]
 }
 
 ###
