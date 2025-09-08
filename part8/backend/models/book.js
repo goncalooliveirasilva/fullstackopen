@@ -14,9 +14,7 @@ const schema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Author',
   },
-  genres: {
-    type: String,
-  },
+  genres: [{ type: String }],
 })
 
-module.exports = mongoose.model('Book', schema)
+export default mongoose.model('Book', schema)

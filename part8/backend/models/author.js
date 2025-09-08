@@ -12,4 +12,4 @@ const schema = new mongoose.Schema({
   },
 })
 
-module.exports = mongoose.model('Author', schema)
+export default mongoose.model('Author', schema)
