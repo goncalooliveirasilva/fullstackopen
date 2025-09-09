@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { useMutation } from '@apollo/client/react'
 import { ADD_BOOK, ALL_AUTHORS, ALL_BOOKS } from '../queries'
 
-const NewBook = () => {
+// eslint-disable-next-line react/prop-types
+const NewBook = ({ displayNotification }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [published, setPublished] = useState('')
@@ -15,16 +16,21 @@ const NewBook = () => {
   const submit = async (event) => {
     event.preventDefault()
 
-    console.log('add book...')
-    createBook({
-      variables: { title, author, published: Number(published), genres },
-    })
-
-    setTitle('')
-    setPublished('')
-    setAuthor('')
-    setGenres([])
-    setGenre('')
+    try {
+      console.log('add book...')
+      createBook({
+        variables: { title, author, published: Number(published), genres },
+      })
+      displayNotification(`Book ${title} added!`, true)
+      setTitle('')
+      setPublished('')
+      setAuthor('')
+      setGenres([])
+      setGenre('')
+    } catch (error) {
+      console.log(error)
+      displayNotification(error.message, false)
+    }
   }
 
   const addGenre = () => {
