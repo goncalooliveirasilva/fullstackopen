@@ -1,6 +1,6 @@
 import { ALL_BOOKS, ALL_GENRES } from '../queries'
 import { useQuery } from '@apollo/client/react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 const Books = () => {
   const [selectedGenre, setSelectedGenre] = useState('')
@@ -16,6 +16,13 @@ const Books = () => {
   return (
     <div>
       <h2>books</h2>
+      {selectedGenre ? (
+        <p>
+          in genre <b>{selectedGenre}</b>
+        </p>
+      ) : (
+        <p>all genres</p>
+      )}
       <table>
         <tbody>
           <tr>

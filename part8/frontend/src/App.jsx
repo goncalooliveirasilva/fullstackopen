@@ -7,6 +7,7 @@ import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
 import NavButton from './components/NavButton'
 import Notification from './components/Notification'
+import Recommendations from './components/Recommendations'
 
 const App = () => {
   const [error, setError] = useState(null)
@@ -48,6 +49,7 @@ const App = () => {
         <NavButton to={'/'}>authors</NavButton>
         <NavButton to={'/books'}>books</NavButton>
         {token && <NavButton to={'/add'}>add</NavButton>}
+        {token && <NavButton to={'/recommend'}>recommendations</NavButton>}
         {!token && <NavButton to={'/login'}>login</NavButton>}
         {token && <NavButton onClick={logout}>logout</NavButton>}
       </div>
@@ -76,6 +78,10 @@ const App = () => {
               />
             )
           }
+        />
+        <Route
+          path="/recommend"
+          element={token ? <Recommendations /> : <Navigate to={'/'} />}
         />
       </Routes>
     </BrowserRouter>
