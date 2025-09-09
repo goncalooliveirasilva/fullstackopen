@@ -132,7 +132,7 @@ const resolvers = {
         try {
           await author.save()
         } catch (error) {
-          throw new GraphQLError('Savingn author failed', {
+          throw new GraphQLError(error.message, {
             extensions: {
               code: 'BAD_USER_INPUT',
               invalidArgs: args.author,

@@ -10,27 +10,35 @@ const NewBook = ({ displayNotification }) => {
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
   const [createBook] = useMutation(ADD_BOOK, {
-    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
+    refetchQueries: [{ query: ALL_AUTHORS }],
+    onError: (error) => {
+      displayNotification(error.message, false)
+    },
+    onCompleted: (data) => {
+      displayNotification(`Book ${data.addBook.title} added!`, true)
+    },
+    update: (cache, response) => {
+      cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
+        return {
+          allBooks: allBooks.concat(response.data.addBook),
+        }
+      })
+    },
   })
 
   const submit = async (event) => {
     event.preventDefault()
 
-    try {
-      console.log('add book...')
-      createBook({
-        variables: { title, author, published: Number(published), genres },
-      })
-      displayNotification(`Book ${title} added!`, true)
-      setTitle('')
-      setPublished('')
-      setAuthor('')
-      setGenres([])
-      setGenre('')
-    } catch (error) {
-      console.log(error)
-      displayNotification(error.message, false)
-    }
+    console.log('add book...')
+    createBook({
+      variables: { title, author, published: Number(published), genres },
+    })
+
+    setTitle('')
+    setPublished('')
+    setAuthor('')
+    setGenres([])
+    setGenre('')
   }
 
   const addGenre = () => {

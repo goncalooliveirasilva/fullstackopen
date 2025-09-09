@@ -34,7 +34,9 @@ const Authors = ({ setError }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     // console.log(selectedAuthor)
-    updateAuthor({ variables: { name: selectedAuthor, born: Number(born) } })
+    updateAuthor({
+      variables: { name: selectedAuthor, born: Number(born) },
+    })
     // setName('')
     setBorn('')
   }
