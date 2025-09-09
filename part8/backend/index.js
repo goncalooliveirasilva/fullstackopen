@@ -55,6 +55,7 @@ const typeDefs = `#graphql
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
     me: User
+    allGenres: [String!]!
   }
 
   type Mutation {
@@ -100,6 +101,16 @@ const resolvers = {
     allAuthors: async () => Author.find({}),
     me: (root, args, context) => {
       return context.currentUser
+    },
+    allGenres: async () => {
+      try {
+        const books = await Book.find({}, 'genres')
+        const genres = [...new Set(books.flatMap((book) => book.genres))]
+        return genres
+      } catch (error) {
+        console.log(error)
+        return []
+      }
     },
   },
   Author: {
