@@ -8,6 +8,23 @@ interface Result {
   average: number;
 }
 
+interface Arguments {
+  dailyHours: number[];
+  targetAmount: number;
+}
+
+const getArguments = (args: string[]): Arguments => {
+  if (args.length < 4) throw new Error('Not enough arguments.');
+
+  if (args.slice(2).filter((s) => isNaN(Number(s))).length > 0) {
+    throw new Error('Provided values were not just numbers.');
+  }
+  return {
+    dailyHours: args.slice(3).map((s) => Number(s)),
+    targetAmount: Number(args[2]),
+  };
+};
+
 const calculateExercises = (
   dailyHours: number[],
   targetAmount: number,
@@ -41,4 +58,13 @@ const calculateExercises = (
   };
 };
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+try {
+  const { dailyHours, targetAmount } = getArguments(process.argv);
+  console.log(calculateExercises(dailyHours, targetAmount));
+} catch (error: unknown) {
+  let errorMessage: string;
+  if (error instanceof Error) {
+    errorMessage = error.message;
+  }
+  console.log(errorMessage);
+}
