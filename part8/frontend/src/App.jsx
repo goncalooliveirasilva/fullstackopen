@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useApolloClient } from '@apollo/client/react'
+import { useSubscription } from '@apollo/client/react'
+import { BOOK_ADDED } from './queries'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
@@ -15,6 +17,16 @@ const App = () => {
   const [notification, setNotification] = useState('')
   const [success, setSuccess] = useState(false)
   const client = useApolloClient()
+
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data }) => {
+      const book = data.data.bookAdded
+      // console.log(data)
+      window.alert(
+        `New book added!\nTitle: ${book.title}\nAuthor: ${book.author.name}\nGenres:${book.genres.map((g) => ` ${g}`)}`,
+      )
+    },
+  })
 
   useEffect(() => {
     const loadedToken = localStorage.getItem('library-user-token')
