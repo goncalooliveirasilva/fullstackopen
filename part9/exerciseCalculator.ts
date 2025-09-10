@@ -62,7 +62,7 @@ try {
   const { dailyHours, targetAmount } = getArguments(process.argv);
   console.log(calculateExercises(dailyHours, targetAmount));
 } catch (error: unknown) {
-  let errorMessage: string;
+  let errorMessage: string = '';
   if (error instanceof Error) {
     errorMessage = error.message;
   }

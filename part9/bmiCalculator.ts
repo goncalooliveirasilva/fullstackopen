@@ -33,7 +33,7 @@ try {
   const { height, weight } = parseArguments(process.argv);
   console.log(calculateBmi(height, weight));
 } catch (error: unknown) {
-  let errorMessage: string;
+  let errorMessage: string = '';
   if (error instanceof Error) {
     errorMessage = error.message;
   }
