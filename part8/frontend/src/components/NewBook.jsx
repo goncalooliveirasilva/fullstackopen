@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client/react'
-import { ADD_BOOK, ALL_AUTHORS, ALL_BOOKS } from '../queries'
+import { ADD_BOOK, ALL_AUTHORS } from '../queries'
 
 // eslint-disable-next-line react/prop-types
 const NewBook = ({ displayNotification }) => {
@@ -17,13 +17,13 @@ const NewBook = ({ displayNotification }) => {
     onCompleted: (data) => {
       displayNotification(`Book ${data.addBook.title} added!`, true)
     },
-    update: (cache, response) => {
-      cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
-        return {
-          allBooks: allBooks.concat(response.data.addBook),
-        }
-      })
-    },
+    // update: (cache, response) => {
+    //   cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
+    //     return {
+    //       allBooks: allBooks.concat(response.data.addBook),
+    //     }
+    //   })
+    // },
   })
 
   const submit = async (event) => {
