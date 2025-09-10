@@ -4,7 +4,7 @@ This repository contains my solutions to the [Fullstack Open](https://fullstacko
 The course focuses on building **single-page web applications (SPAs)** with React that communicate with RESTful and GraphQL backends.  
 Along the way, it covers modern web development tools and practices such as **Redux, Node.js, MongoDB, TypeScript, testing, and containerization**.  
 
-Currently working on: **Part 8 – GraphQL**  
+Currently working on: **Part 9 – TypeScript**  
 
 ## Course Progress
 
@@ -16,8 +16,8 @@ Currently working on: **Part 8 – GraphQL**
 - ✅ Part 5 – Testing React apps  
 - ✅ Part 6 – Advanced state management (Redux, React Query)  
 - ✅ Part 7 – React router, custom hooks, styling with CSS and webpack  
-- 🚧 Part 8 – GraphQL (in progress)  
-- ⏳ Part 9 – TypeScript  
+- ✅ Part 8 – GraphQL  
+- 🚧 Part 9 – TypeScript  
 - ⏳ Part 10 – React Native  
 - ⏳ Part 11 – CI/CD  
 - ⏳ Part 12 – Containers  
