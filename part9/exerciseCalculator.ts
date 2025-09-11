@@ -25,7 +25,7 @@ const getArguments = (args: string[]): Arguments => {
   };
 };
 
-const calculateExercises = (
+export const calculateExercises = (
   dailyHours: number[],
   targetAmount: number,
 ): Result => {
@@ -38,7 +38,7 @@ const calculateExercises = (
 
   if (average < targetAmount * 0.75) {
     rating = 1;
-    ratingDescription = 'too bad';
+    ratingDescription = 'bad';
   } else if (average < targetAmount) {
     rating = 2;
     ratingDescription = 'not too bad but could be better';
@@ -58,13 +58,15 @@ const calculateExercises = (
   };
 };
 
-try {
-  const { dailyHours, targetAmount } = getArguments(process.argv);
-  console.log(calculateExercises(dailyHours, targetAmount));
-} catch (error: unknown) {
-  let errorMessage: string = '';
-  if (error instanceof Error) {
-    errorMessage = error.message;
+if (require.main === module) {
+  try {
+    const { dailyHours, targetAmount } = getArguments(process.argv);
+    console.log(calculateExercises(dailyHours, targetAmount));
+  } catch (error: unknown) {
+    let errorMessage: string = '';
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    console.log(errorMessage);
   }
-  console.log(errorMessage);
 }

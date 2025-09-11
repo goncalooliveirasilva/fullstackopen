@@ -17,11 +17,6 @@ const parseArguments = (args: string[]): Metrics => {
   }
 };
 
-export const validateArguments = (height: string, weight: string): boolean => {
-  if (!isNaN(Number(height)) && !isNaN(Number(weight))) return true;
-  return false;
-};
-
 export const calculateBmi = (height: number, weight: number): string => {
   const bmi = weight / Math.pow(height / 100, 2);
   if (bmi < 18.5) {
