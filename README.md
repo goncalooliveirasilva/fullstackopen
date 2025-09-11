@@ -6,7 +6,7 @@ Along the way, it covers modern web development tools and practices such as **Re
 
 Currently working on: **Part 9 – TypeScript**  
 
-## Course Progress
+## 📝 Course Progress
 
 - ✅ Part 0 – Fundamentals of Web apps  
 - ✅ Part 1 – Introduction to React  
@@ -23,30 +23,72 @@ Currently working on: **Part 9 – TypeScript**
 - ⏳ Part 12 – Containers  
 - ⏳ Part 13 – Using relational databases 
 
-## Repository Structure
+## 📁 Repository Structure
 
 Each course part has its own folder with the respective exercises.
 
-## Skills & Tools Learned
+## ⚡ Skills & Tools Learned
 
 **Frontend**
-- React (components, hooks, context, custom hooks)  
-- React Router  
-- State management with Redux and React Query  
-- Styling with CSS (styled components) 
+- **React** (components, hooks, context, custom hooks)  
+- **React Router**  
+- State management with **Redux** and **React Query**  
+- Styling with CSS (**styled components**) 
 
 **Backend**
-- Node.js with Express    
+- **Node.js** with **Express**    
 - REST API implementation  
-- MongoDB with Mongoose  
-- GraphQL schemas, resolvers, and Apollo Server/Client  
+- **MongoDB** with **Mongoose**  
+- **GraphQL** schemas, resolvers, and **Apollo Server/Client**  
 
 **Other Tools & Practices**
 - Git & GitHub for version control  
-- Testing with Supertest and Playwright
+- Testing with **Supertest** and **Playwright**
+
+## 🚀 Featured Projects
+
+- **📱 Phonebook App** (Part 2–3)  
+  Application for managing contacts, demonstrating CRUD operations and server communication.  
+  - ⚙️ Backend: Node.js, Express, MongoDB  
+  - 💻 Frontend: React  
+  - 🌍 Deployed live for testing and demonstration  
+  - 🔗 [Live Demo](https://dep-test-kqwt.onrender.com) | [Deployment Repository](https://github.com/goncalooliveirasilva/dep-test)
 
 
-## Acknowledgements
+- **📝 Bloglist App** (Part 4–5)  
+  Blogging platform with user authentication, authorization, and testing.  
+  - ⚙️ Backend: Node.js, Express, MongoDB  
+  - 💻 Frontend: React
+  - 🧪 Integration tests with Supertest and end-to-end tests with Playwright
+  - 📁 Source Code:
+      - [Backend](https://github.com/goncalooliveirasilva/fullstackopen/tree/main/part4/bloglist/backend)  
+      - [Frontend](https://github.com/goncalooliveirasilva/fullstackopen/tree/main/part5)  
+
+
+- **🛠️ Bloglist App Extensions** (Part 7)  
+  Extended the Bloglist App with advanced frontend techniques.  
+  - 🟥 **Redux version**: state management with Redux, routing with React Router, styled-components for styling  
+  - 🔷 **React Query + Context version**: state management with React Query and Context  
+  - 🔍 Showcases comparing different approaches to frontend state
+  - 📁 [Source Code](https://github.com/goncalooliveirasilva/fullstackopen/tree/main/part7/bloglist)  
+
+
+- **💬 Anecdotes App** (Part 6)  
+  Application for creating, voting on, and viewing anecdotes, implemented in multiple versions.  
+  - 🟥 **Redux version**: global state management with Redux  
+  - 🔷 **React Query version**: state management with React Query and Context/useReducer
+  - 📁 [Source Code](https://github.com/goncalooliveirasilva/fullstackopen/tree/main/part6)  
+
+
+- **📚 GraphQL Library App** (Part 8)  
+  A library management system demonstrating GraphQL integration on both backend and frontend.  
+  - ⚙️ Backend: Apollo Server with GraphQL schemas and resolvers  
+  - 💻 Frontend: React with Apollo Client for queries, mutations, and subscriptions  
+  - 🧩 Features user authentication, and real-time updates with GraphQL subscriptions
+  - 📁 [Source Code](https://github.com/goncalooliveirasilva/fullstackopen/tree/main/part8)  
+
+
+## 🙏 Acknowledgements
 
 This repository is based on the [Fullstack Open](https://fullstackopen.com/en/) course by the [University of Helsinki](https://www.helsinki.fi/en).  
 Huge thanks to the course instructors and contributors for making such a comprehensive and free resource for modern web development.
