@@ -1,6 +1,6 @@
-# Fullstack Open Solutions
+# Full Stack Open Solutions
 
-This repository contains my solutions to the [Fullstack Open](https://fullstackopen.com/en/) course by the [University of Helsinki](https://www.helsinki.fi/en).  
+This repository contains my solutions to the [Full Stack Open](https://fullstackopen.com/en/) course by the [University of Helsinki](https://www.helsinki.fi/en).  
 The course focuses on building **single-page web applications (SPAs)** with React that communicate with RESTful and GraphQL backends.  
 Along the way, it covers modern web development tools and practices such as **Redux, Node.js, MongoDB, TypeScript, testing, and containerization**.  
 
@@ -90,5 +90,5 @@ Each course part has its own folder with the respective exercises.
 
 ## 🙏 Acknowledgements
 
-This repository is based on the [Fullstack Open](https://fullstackopen.com/en/) course by the [University of Helsinki](https://www.helsinki.fi/en).  
+This repository is based on the [Full Stack Open](https://fullstackopen.com/en/) course by the [University of Helsinki](https://www.helsinki.fi/en).  
 Huge thanks to the course instructors and contributors for making such a comprehensive and free resource for modern web development.
