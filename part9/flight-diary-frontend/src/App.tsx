@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import entryService from "./services/entryService";
 import { NonSensitiveDiaryEntry } from "./types";
-// import Notification from "./components/Notification";
+import Notification from "./components/Notification";
 import Entries from "./components/Entries";
+import NewEntryForm from "./components/NewEntryForm";
 
 function App() {
   const [entries, setEntries] = useState<NonSensitiveDiaryEntry[]>([]);
-  // const [message, , setMessage] = useState("");
-  // const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const getEntries = async () => {
@@ -19,8 +19,13 @@ function App() {
 
   return (
     <div>
-      <h1>Add new entry</h1>
-      {/* <Notification message={message} success={success} /> */}
+      <h1>Add New Entry</h1>
+      <Notification message={message} />
+      <NewEntryForm
+        onAddEntry={(entry) => setEntries(entries.concat(entry))}
+        setMessage={setMessage}
+      />
+      <h1>Diary entries</h1>
       <Entries entries={entries} />
     </div>
   );
