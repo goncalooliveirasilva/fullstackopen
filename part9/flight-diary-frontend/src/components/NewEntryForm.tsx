@@ -48,31 +48,43 @@ const NewEntryForm = ({
     <div>
       <form onSubmit={addNewEntry}>
         <div>
-          date
+          <b>date</b>
           <input
-            type="text"
+            type="date"
             value={date}
             onChange={({ target }) => setDate(target.value)}
           />
         </div>
         <div>
-          visibility
-          <input
-            type="text"
-            value={visibility}
-            onChange={({ target }) => setVisibility(target.value)}
-          />
+          <b>visibility</b>
+          {Object.values(Visibility).map((v) => (
+            <label key={v}>
+              <input
+                type="radio"
+                value={v}
+                checked={visibility === v}
+                onChange={() => setVisibility(v)}
+              />
+              {v}
+            </label>
+          ))}
         </div>
         <div>
-          weather
-          <input
-            type="text"
-            value={weather}
-            onChange={({ target }) => setWeather(target.value)}
-          />
+          <b>weather</b>
+          {Object.values(Weather).map((w) => (
+            <label key={w}>
+              <input
+                type="radio"
+                value={w}
+                checked={weather === w}
+                onChange={() => setWeather(w)}
+              />
+              {w}
+            </label>
+          ))}
         </div>
         <div>
-          comment
+          <b>comment</b>
           <input
             type="text"
             value={comment}
