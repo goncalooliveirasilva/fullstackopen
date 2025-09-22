@@ -1,6 +1,6 @@
 import express, { NextFunction, Response, Request } from 'express';
 import patientService from '../services/patientService';
-import { NewPatient, NonSensitivePatient } from '../types';
+import { NewPatient, NonSensitivePatient, Patient } from '../types';
 import { z } from 'zod';
 import { NewEntrySchema } from '../utils';
 
@@ -40,6 +40,10 @@ router.post(
     res.json(addedEntry);
   },
 );
+
+router.get('/:id', (req: Request, res: Response<Patient>) => {
+  res.send(patientService.getPatient(req.params.id));
+});
 
 router.use(errorMiddleware);
 

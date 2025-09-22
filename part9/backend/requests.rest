@@ -20,3 +20,7 @@ Content-Type: application/json
     "gender": "male",
     "occupation": "occupation"
 }
+
+###
+
+GET http://localhost:3001/api/patients/d2773c6e-f723-11e9-8f0b-362b9e155667
