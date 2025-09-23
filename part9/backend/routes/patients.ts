@@ -42,7 +42,8 @@ router.post(
 );
 
 router.get('/:id', (req: Request, res: Response<Patient>) => {
-  res.send(patientService.getPatient(req.params.id));
+  const patient = patientService.getPatient(req.params.id);
+  res.json(patient);
 });
 
 router.use(errorMiddleware);
