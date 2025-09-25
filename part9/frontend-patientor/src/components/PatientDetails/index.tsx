@@ -25,13 +25,29 @@ const PatientDetails = () => {
 
   return (
     <Container>
-      <h4>
+      <h1>
         {patient.name}{" "}
         {patient.gender === "male" ? <MaleIcon /> : <FemaleIcon />}
-      </h4>
+      </h1>
       <Divider hidden />
       <p>ssh: {patient.ssn}</p>
       <p>occupation: {patient.occupation}</p>
+      <Divider hidden />
+      <h3>entries</h3>
+      {patient.entries.map((entry) => {
+        return (
+          <div key={entry.id}>
+            <p>
+              {entry.date} {entry.description}
+            </p>
+            <ul>
+              {entry.diagnosisCodes?.map((code) => (
+                <li key={code}>{code}</li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
     </Container>
   );
 };
