@@ -29,7 +29,7 @@ const getPatient = (id: string): Patient | undefined => {
     (entry) => entry.id == id,
   );
   if (patient) {
-    return { ...patient, entries: [] };
+    return patient;
   }
   return undefined;
 };
