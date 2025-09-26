@@ -91,8 +91,8 @@ Each course part has its own folder with the respective exercises.
   - 🧩 Features user authentication, and real-time updates with GraphQL subscriptions
   - 📁 [Source Code](part8/)
 
-- **🧾 Patiator App** (Part 9)
-  Medical records management application built with **TypeScript**.
+- **🧾 Patiator App** (Part 9)  
+  Medical records management application built with TypeScript.
   - ⚙️ Backend: Node.js, Express, fully typed with TypeScript
   - 💻 Frontend: React with TypeScript, leveraging strong typing for components and state
   - 📁 Source Code:
