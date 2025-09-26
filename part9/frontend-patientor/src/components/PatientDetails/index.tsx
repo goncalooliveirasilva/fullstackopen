@@ -5,6 +5,7 @@ import { Diagnosis, Patient } from "../../types";
 import { Container, Divider } from "@mui/material";
 import MaleIcon from "@mui/icons-material/Male";
 import FemaleIcon from "@mui/icons-material/Female";
+import EntryDetails from "../EntryDetails";
 
 const PatientDetails = ({ diagnoses }: { diagnoses: Diagnosis[] }) => {
   const { id } = useParams<{ id: string }>();
@@ -34,23 +35,9 @@ const PatientDetails = ({ diagnoses }: { diagnoses: Diagnosis[] }) => {
       <p>occupation: {patient.occupation}</p>
       <Divider hidden />
       <h3>entries</h3>
-      {patient.entries.map((entry) => {
-        return (
-          <div key={entry.id}>
-            <p>
-              {entry.date} {entry.description}
-            </p>
-            <ul>
-              {entry.diagnosisCodes?.map((code) => (
-                <li key={code}>
-                  {code}{" "}
-                  {diagnoses.filter((d) => d.code === code).map((d) => d.name)}
-                </li>
-              ))}
-            </ul>
-          </div>
-        );
-      })}
+      {patient.entries.map((entry) => (
+        <EntryDetails diagnoses={diagnoses} key={entry.id} entry={entry} />
+      ))}
     </Container>
   );
 };
