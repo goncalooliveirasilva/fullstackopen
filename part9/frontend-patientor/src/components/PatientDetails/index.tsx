@@ -37,6 +37,7 @@ const PatientDetails = ({ diagnoses }: { diagnoses: Diagnosis[] }) => {
       <Divider hidden />
       <NewEntryForm
         patientId={patient.id}
+        diagnosis={diagnoses}
         onEntryAdded={(entry) =>
           setPatient({
             ...patient,

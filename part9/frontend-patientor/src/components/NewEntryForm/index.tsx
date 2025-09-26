@@ -6,8 +6,14 @@ import {
   Typography,
   Button,
   MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  OutlinedInput,
+  ListItemText,
+  Checkbox,
 } from "@mui/material";
-import { Entry, EntryWithoutId } from "../../types";
+import { Diagnosis, Entry, EntryWithoutId } from "../../types";
 import { useState } from "react";
 import patientService from "../../services/patients";
 import axios from "axios";
@@ -15,6 +21,7 @@ import axios from "axios";
 interface Props {
   patientId: string;
   onEntryAdded: (entry: Entry) => void;
+  diagnosis: Diagnosis[];
 }
 
 const entryTypes = [
@@ -23,13 +30,13 @@ const entryTypes = [
   "OccupationalHealthcare",
 ] as const;
 
-const NewEntryForm = ({ patientId, onEntryAdded }: Props) => {
+const NewEntryForm = ({ patientId, onEntryAdded, diagnosis }: Props) => {
   const [type, setType] = useState<(typeof entryTypes)[number]>("HealthCheck");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [specialist, setSpecialist] = useState("");
   const [healthCheckRating, setHealthCheckRating] = useState("0");
-  const [diagnosisCodes, setDiagnosisCodes] = useState("");
+  const [diagnosisCodes, setDiagnosisCodes] = useState<string[]>([]);
   const [employerName, setEmployerName] = useState("");
   const [sickLeaveStart, setSickLeaveStart] = useState("");
   const [sickLeaveEnd, setSickLeaveEnd] = useState("");
@@ -52,10 +59,7 @@ const NewEntryForm = ({ patientId, onEntryAdded }: Props) => {
           date,
           specialist,
           healthCheckRating: Number(healthCheckRating),
-          diagnosisCodes: diagnosisCodes
-            .split(",")
-            .map((code) => code.trim())
-            .filter(Boolean),
+          diagnosisCodes,
         };
       } else if (type === "Hospital") {
         newEntry = {
@@ -67,10 +71,7 @@ const NewEntryForm = ({ patientId, onEntryAdded }: Props) => {
             date: dischargeDate,
             criteria: dischargeCriteria,
           },
-          diagnosisCodes: diagnosisCodes
-            .split(",")
-            .map((code) => code.trim())
-            .filter(Boolean),
+          diagnosisCodes,
         };
       } else {
         // OccupationalHealthcare
@@ -84,10 +85,7 @@ const NewEntryForm = ({ patientId, onEntryAdded }: Props) => {
             sickLeaveStart && sickLeaveEnd
               ? { startDate: sickLeaveStart, endDate: sickLeaveEnd }
               : undefined,
-          diagnosisCodes: diagnosisCodes
-            .split(",")
-            .map((code) => code.trim())
-            .filter(Boolean),
+          diagnosisCodes,
         };
       }
 
@@ -108,7 +106,7 @@ const NewEntryForm = ({ patientId, onEntryAdded }: Props) => {
     setDate("");
     setSpecialist("");
     setHealthCheckRating("0");
-    setDiagnosisCodes("");
+    setDiagnosisCodes([]);
     setEmployerName("");
     setSickLeaveStart("");
     setSickLeaveEnd("");
@@ -179,12 +177,29 @@ const NewEntryForm = ({ patientId, onEntryAdded }: Props) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField
-            fullWidth
-            label="Diagnosis Codes (comma separated)"
-            value={diagnosisCodes}
-            onChange={(e) => setDiagnosisCodes(e.target.value)}
-          />
+          <FormControl fullWidth>
+            <InputLabel id="diagnosis-codes-label">Diagnosis Codes</InputLabel>
+            <Select
+              labelId="diagnosis-codes-label"
+              multiple
+              value={diagnosisCodes}
+              onChange={(e) => {
+                const value = e.target.value;
+                setDiagnosisCodes(
+                  typeof value === "string" ? value.split(",") : value
+                );
+              }}
+              input={<OutlinedInput label="Diagnosis Codes" />}
+              renderValue={(selected) => (selected as string[]).join(", ")}
+            >
+              {diagnosis.map((d) => (
+                <MenuItem key={d.code} value={d.code}>
+                  <Checkbox checked={diagnosisCodes.indexOf(d.code) > -1} />
+                  <ListItemText primary={`${d.code} ${d.name}`} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Grid>
 
         {type === "HealthCheck" && (
