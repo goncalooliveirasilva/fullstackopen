@@ -24,3 +24,20 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667
+
+###
+
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+    "date": "2025-01-01",
+    "type": "Hospital",
+    "specialist": "MD House",
+    "diagnosisCodes": ["S62.5"],
+    "description": "Testing API",
+    "discharge": {
+        "date": "2025-01-01",
+        "criteria": "Test"
+    }
+}
