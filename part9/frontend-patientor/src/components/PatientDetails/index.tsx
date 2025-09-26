@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import patientService from "../../services/patients";
 import { useEffect, useState } from "react";
 import { Diagnosis, Patient } from "../../types";
-import { Container, Divider } from "@mui/material";
+import { Container, Divider, Typography } from "@mui/material";
 import MaleIcon from "@mui/icons-material/Male";
 import FemaleIcon from "@mui/icons-material/Female";
 import EntryDetails from "../EntryDetails";
@@ -27,10 +27,10 @@ const PatientDetails = ({ diagnoses }: { diagnoses: Diagnosis[] }) => {
 
   return (
     <Container>
-      <h1>
+      <Typography variant="h4">
         {patient.name}{" "}
         {patient.gender === "male" ? <MaleIcon /> : <FemaleIcon />}
-      </h1>
+      </Typography>
       <Divider hidden />
       <p>ssh: {patient.ssn}</p>
       <p>occupation: {patient.occupation}</p>
