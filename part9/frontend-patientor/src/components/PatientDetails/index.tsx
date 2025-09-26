@@ -6,6 +6,7 @@ import { Container, Divider } from "@mui/material";
 import MaleIcon from "@mui/icons-material/Male";
 import FemaleIcon from "@mui/icons-material/Female";
 import EntryDetails from "../EntryDetails";
+import NewEntryForm from "../NewEntryForm";
 
 const PatientDetails = ({ diagnoses }: { diagnoses: Diagnosis[] }) => {
   const { id } = useParams<{ id: string }>();
@@ -34,6 +35,15 @@ const PatientDetails = ({ diagnoses }: { diagnoses: Diagnosis[] }) => {
       <p>ssh: {patient.ssn}</p>
       <p>occupation: {patient.occupation}</p>
       <Divider hidden />
+      <NewEntryForm
+        patientId={patient.id}
+        onEntryAdded={(entry) =>
+          setPatient({
+            ...patient,
+            entries: patient.entries.concat(entry),
+          })
+        }
+      />
       <h3>entries</h3>
       {patient.entries.map((entry) => (
         <EntryDetails diagnoses={diagnoses} key={entry.id} entry={entry} />
